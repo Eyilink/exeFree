@@ -1,0 +1,6 @@
+# Ignore large binaries
+resources/*.jar
+resources/*.tar.gz
+resources/*.zip
+resources/*.deb
+resources/*.AppImage
