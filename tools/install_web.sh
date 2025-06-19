@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/zsh
+
 set -e
 
 export GO111MODULE=on
@@ -12,7 +13,7 @@ sudo apt update && sudo apt install -y \
   python3-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev \
   chromium firefox-esr x11-apps xauth net-tools
 
-sudo apt install --no-install-recommends \
+sudo apt install -y --no-install-recommends \
   libgl1-mesa-glx \
   libgl1-mesa-dri \
   libegl1-mesa \
@@ -50,8 +51,8 @@ echo "[*] Installing Firefox extensions (Wappalyzer & PwnFox)..."
 # Download and prepare them, manual install unless using Firefox automation
 
 
-echo "[*] Installing Postman..."
-sudo tar -xzf /opt/resources/postman-linux-x64.tar.gz -C /opt
-sudo ln -s /opt/Postman/Postman /usr/local/bin/postman
+# echo "[*] Installing Postman..."
+# sudo tar -xzf /opt/resources/postman-linux-x64.tar.gz -C /opt
+# sudo ln -s /opt/Postman/Postman /usr/local/bin/postman
 
 echo "[*] Installation complete!"

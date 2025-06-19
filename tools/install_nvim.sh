@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/zsh
+
 set -e
 
 # Update package lists and install neovim
@@ -15,7 +16,7 @@ sudo make install
 
 # Install pynvim via pip (for python plugin support)
 echo "Installing pynvim python package..."
-pip3 install --user pynvim
+pip3 install --break-system-packages --user pynvim
 
 # Create config directory if it doesn't exist
 CONFIG_DIR="$HOME/.config/nvim"
@@ -24,6 +25,7 @@ if [ -d "$CONFIG_DIR" ]; then
     mv "$CONFIG_DIR" "${CONFIG_DIR}.bak.$(date +%s)"
 fi
 mkdir -p "$HOME/.config"
+mkdir -p "$CONFIG_DIR"
 
 echo "Cloning your Neovim config repo..."
 git clone https://github.com/Eyilink/nvim-easy-conf.git "$CONFIG_DIR"

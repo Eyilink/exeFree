@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+cd /workspace
 
 authenticate_user() {
     echo "Enter your system username:"
@@ -20,26 +21,26 @@ echo "Encrypted workspace requires authentication"
 authenticate_user
 
 
-echo "Setting up encrypted workspace with gocryptfs..."
+# echo "Setting up encrypted workspace with gocryptfs..."
 
-mkdir -p /workspace_encrypted /workspace
+# sudo mkdir -p /workspace_encrypted /workspace
 
-# Initialize encrypted directory if it doesn't exist
-if [ ! -f "/workspace_encrypted/gocryptfs.conf" ]; then
-    echo "Initializing encrypted directory..."
-    cat /run/secrets/encfs_password | gocryptfs -init /workspace_encrypted
-fi
+# # Initialize encrypted directory if it doesn't exist
+# if [ ! -f "/workspace_encrypted/gocryptfs.conf" ]; then
+#     echo "Initializing encrypted directory..."
+#     cat /run/secrets/encfs_password | gocryptfs -init /workspace_encrypted
+# fi
 
-# Mount encrypted directory
-cat /run/secrets/encfs_password | gocryptfs /workspace_encrypted /workspace
+# # Mount encrypted directory
+# cat /run/secrets/encfs_password | gocryptfs /workspace_encrypted /workspace
 
-cleanup() {
-    echo "Unmounting encrypted filesystem..."
-    fusermount -u /workspace 2>/dev/null || true
-    exit 0
-}
+# cleanup() {
+#     echo "Unmounting encrypted filesystem..."
+#     fusermount -u /workspace 2>/dev/null || true
+#     exit 0
+# }
 
-trap cleanup SIGTERM SIGINT
+# trap cleanup SIGTERM SIGINT
 
 echo "Encrypted workspace ready!"
 exec "$@"
