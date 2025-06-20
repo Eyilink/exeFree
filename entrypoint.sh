@@ -1,5 +1,16 @@
 #!/bin/bash
 set -e
+
+# echo "Setting default creds for Neo4j..."
+# sudo sed -i 's/^#\?dbms.default_listen_address=.*/dbms.default_listen_address=0.0.0.0/' /etc/neo4j/neo4j.conf
+# echo "dbms.connector.http.listen_address=:7474" | sudo tee -a /etc/neo4j/neo4j.conf > /dev/null
+# echo "dbms.connector.bolt.listen_address=:7687" | sudo tee -a /etc/neo4j/neo4j.conf > /dev/null
+
+
+
+# Démarre Neo4j
+# sudo service neo4j start
+
 cd /workspace
 
 authenticate_user() {

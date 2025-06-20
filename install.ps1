@@ -40,3 +40,5 @@ if (-not (Get-Content $profilePath | Select-String -SimpleMatch "Set-Alias exefr
 }
 
 Write-Host '[✓] Installation complete. Open a new PowerShell session or run $PROFILE to load the alias.' -ForegroundColor Green
+
+. $PROFILE  # reloads your profile

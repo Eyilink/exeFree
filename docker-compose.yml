@@ -7,8 +7,56 @@ services:
       - ./workspace:/workspace
     environment:
       - DISPLAY=host.docker.internal:0.0
+      - NEO4J_AUTH=neo4j/bloodhound
     ports:
       - 1337:1337
+      - 7474:7474
+      - 7687:7687
+      - 8080:8080
+    depends_on:
+      - neo4j
     stdin_open: true
     shm_size: 2g
     tty: true
+
+  neo4j:
+    image: neo4j:4.4-community
+    container_name: neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    environment:
+      - NEO4J_AUTH=neo4j/bloodhound
+      - NEO4J_dbms_allow__upgrade=true
+      - NEO4J_dbms_default__database=neo4j
+      - NEO4J_dbms_default__listen__address=0.0.0.0
+      - NEO4J_dbms_connector_https_listen__address=:7473
+      - NEO4J_dbms_connector_http_listen__address=:7474
+      - NEO4J_dbms_connector_bolt_listen__address=:7687
+      - NEO4J_dbms_security_procedures_unrestricted=gds.*,apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=gds.*,apoc.*
+
+  bloodhound:
+    image: specterops/bloodhound:latest
+    container_name: bloodhound
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - bhe_neo4j_connection=bolt://neo4j:7687
+      - bhe_neo4j_username=neo4j
+      - bhe_neo4j_password=bloodhound
+      - bhe_disable_cypher_qc=false
+    depends_on:
+      - neo4j
+    volumes:
+      - bloodhound_data:/opt/bloodhound/data
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  bloodhound_data:
