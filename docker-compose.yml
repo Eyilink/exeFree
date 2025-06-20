@@ -2,6 +2,7 @@ version: '3'
 services:
   exefree:
     build: .
+    container_name: exefree
     volumes:
       - ./workspace:/workspace
     environment:
