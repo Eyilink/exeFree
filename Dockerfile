@@ -7,7 +7,7 @@ RUN apt update && apt install -y \
   nmap netcat-traditional zsh vim tmux sudo unzip \
   ninja-build gettext cmake build-essential libpcap-dev \
   x11-apps \
-  libx11-6 libxtst6 libxrender1 libxi6 \
+  libx11-6 libxtst6 libxrender1 libxi6 openvpn iproute2 \
   && apt clean
 
 RUN apt update && apt install -y wget gnupg && \
@@ -56,11 +56,11 @@ ENV ZSH_DISABLE_COMPFIX=true
 # Make sure scripts are executable (optional, but good practice)
 RUN sudo chmod +x /opt/tools/*.sh
 # RUN sudo /opt/tools/install.sh
-# RUN /opt/tools/customize_shell.sh
-# RUN /opt/tools/install_nvim.sh
-# RUN /opt/tools/install_fzf.sh
-# RUN sudo /opt/tools/install_web.sh
-RUN /opt/tools/install_internal.sh
+RUN /opt/tools/customize_shell.sh
+RUN /opt/tools/install_nvim.sh
+RUN /opt/tools/install_fzf.sh
+RUN sudo /opt/tools/install_web.sh
+#RUN /opt/tools/install_internal.sh
 # Run the Neovim install script as root (or switch to non-root user later)
 COPY entrypoint.sh /entrypoint.sh
 RUN sudo chmod +x /entrypoint.sh

@@ -25,7 +25,7 @@ if [ -d "$CONFIG_DIR" ]; then
     mv "$CONFIG_DIR" "${CONFIG_DIR}.bak.$(date +%s)"
 fi
 mkdir -p "$HOME/.config"
-mkdir -p "$CONFIG_DIR"
+
 
 echo "Cloning your Neovim config repo..."
 git clone https://github.com/Eyilink/nvim-easy-conf.git "$CONFIG_DIR"
