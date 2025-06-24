@@ -7,7 +7,7 @@ RUN apt update && apt install -y \
   nmap netcat-traditional zsh vim tmux sudo unzip \
   ninja-build gettext cmake build-essential libpcap-dev \
   x11-apps \
-  libx11-6 libxtst6 libxrender1 libxi6 openvpn iproute2 \
+  libx11-6 libxtst6 libxrender1 libxi6 openvpn iproute2 iputils-ping \
   && apt clean
 
 RUN apt update && apt install -y wget gnupg && \

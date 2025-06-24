@@ -12,7 +12,7 @@ sudo apt update && sudo apt install -y \
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
 
 echo "[*] Creating tools directory..."
-mkdir -p ~/tools && cd ~/tools
+mkdir -p /opt/tools && cd /opt/tools
 
 # echo "[*] Installing Neo4j..."
 # wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
@@ -69,5 +69,12 @@ mv chisel_1.9.1_linux_amd64 chisel
 echo "[*] Installing ligolo-ng..."
 git clone https://github.com/nicocha30/ligolo-ng.git
 cd ligolo-ng/agent && make build && cd ../..
+
+echo "[*] Installing metasploit..."
+sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
+    git clone https://github.com/rapid7/metasploit-framework /opt/tools/metasploit-framework && \
+    cd /opt/tools/metasploit-framework && \
+    gem install bundler && \
+    bundle install
 
 echo "[*] All tools installed in ~/tools"

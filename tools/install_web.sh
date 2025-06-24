@@ -42,10 +42,6 @@ echo "[*] Installing testssl.sh..."
 git clone https://github.com/drwetter/testssl.sh.git /opt/testssl.sh
 ln -s /opt/testssl.sh/testssl.sh /usr/local/bin/testssl
 
-echo "[*] Installing metasploit..."
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
-  chmod 755 msfinstall && \
-  ./msfinstall
 
 echo "[*] Installing Firefox extensions (Wappalyzer & PwnFox)..."
 # Download and prepare them, manual install unless using Firefox automation

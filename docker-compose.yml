@@ -2,21 +2,20 @@ version: '3'
 services:
   exefree:
     build: .
-    container_name: exefree
+    # container_name: exefree
     volumes:
       - ./workspace:/workspace
     environment:
       - DISPLAY=host.docker.internal:0.0
-      - NEO4J_AUTH=neo4j/bloodhound
+    entrypoint: ["/entrypoint.sh"]
+    labels:
+      - "app=exefree"
     ports:
       - 1337:1337
-      # - 7474:7474
-      # - 7687:7687
-      # - 8080:8080
     # depends_on:
     #   - neo4j
     cap_add:
-      - NET_ADMIN           # Required for networking commands (ifconfig, iptables, etc.)
+      - NET_ADMIN
     devices:
       - /dev/net/tun 
     stdin_open: true
