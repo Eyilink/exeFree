@@ -72,9 +72,9 @@ cd ligolo-ng/agent && make build && cd ../..
 
 echo "[*] Installing metasploit..."
 sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
-    git clone https://github.com/rapid7/metasploit-framework /opt/tools/metasploit-framework && \
+    sudo git clone https://github.com/rapid7/metasploit-framework /opt/tools/metasploit-framework && \
     cd /opt/tools/metasploit-framework && \
-    gem install bundler && \
-    bundle install
+    sudo gem install bundler && \
+    sudo bundle install
 
 echo "[*] All tools installed in ~/tools"
