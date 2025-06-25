@@ -1,7 +1,7 @@
 param (
     [string]$Command,
-    [string]$Vpn = "",
-    [string]$Workspace = ""
+    [string]$Workspace = "",
+    [string]$Vpn = ""
 )
 
 $serviceName = "exefree"
@@ -26,24 +26,54 @@ switch ($Command) {
         Write-Output "[*] Starting Docker container..."
         
        
+       
         if ($Vpn) {
              # Normalize paths
              Write-Output "Overriding Docker Compose"
         #$workspacePath = Resolve-Path $Workspace
-        $vpnPath = (Resolve-Path $Vpn).Path
-            # Build override YAML
+            $vpnPath = (Resolve-Path $Vpn).Path
+            # Build override YAML 
             $override = @"
 version: '3'
 services:
   ${containerName}:
     volumes:
-      - "/workspace:/workspace"
       - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
+      - "$ScriptDir/workspace/:/workspace"
     entrypoint: ["/entrypoint.sh", "--vpn", "/vpn/$(Split-Path -Leaf $vpnPath)"]
 "@
-
             Set-Content -Path "$ScriptDir\docker-compose.override.yml" -Value $override
+            }
+           if($Workspace)
+            {
+                $workspacePath = "$ScriptDir/workspace/$Workspace".Replace('\','/')
+                Write-Output $workspacePath
+                if(!(Test-Path $workspacePath)) {
+                    New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
+                }
+                 $override = @"
+version: '3'
+services:
+  ${containerName}:
+    volumes:
+      - "${workspacePath}:/workspace"
+    entrypoint: ["/entrypoint.sh"]
+"@
+                Set-Content -Path "$ScriptDir\docker-compose.override.yml" -Value $override
+            }
+
+
+
+            if($Vpn -or $Workspace)
+        {
+            
+      
+        
+
+
+  
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" up -d
+            
         }
        else {
         docker compose -f "$ScriptDir\docker-compose.yml" up -d
@@ -67,6 +97,14 @@ services:
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" down
             Remove-Item "$ScriptDir\docker-compose.override.yml" -ErrorAction SilentlyContinue
         }
+        if($Workspace)
+        {
+            $workspacePath = "$ScriptDir/workspace/$Workspace".Replace('\','/')
+             if(Test-Path $workspacePath) {
+                   Remove-Item $workspacePath -Force -Recurse -ErrorAction SilentlyContinue
+                }
+        }
+       
         docker compose -f "$ScriptDir\docker-compose.yml" down
         
     }
