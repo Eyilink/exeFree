@@ -7,6 +7,7 @@ param (
 $serviceName = "exefree"
 $containerName = "exefree"
 $labelFilter = "app=exefree"
+$homeDir = $env:USERPROFILE
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
@@ -46,7 +47,7 @@ services:
             }
            if($Workspace)
             {
-                $workspacePath = "$ScriptDir/workspace/$Workspace".Replace('\','/')
+                $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
                 Write-Output $workspacePath
                 if(!(Test-Path $workspacePath)) {
                     New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
@@ -99,7 +100,7 @@ services:
         }
         if($Workspace)
         {
-            $workspacePath = "$ScriptDir/workspace/$Workspace".Replace('\','/')
+            $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
              if(Test-Path $workspacePath) {
                    Remove-Item $workspacePath -Force -Recurse -ErrorAction SilentlyContinue
                 }
