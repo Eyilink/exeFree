@@ -22,10 +22,10 @@
 
 # echo 'plugins=(git sudo z history zsh-autosuggestions zsh-syntax-highlighting)' >> ~/.zshrc
 
-echo 'alias la='"ls -la"'
-alias gs='git status'
-alias ..='cd ..'
-alias vim='nvim'
+echo 'alias la="ls -la"
+alias gs="git status"
+alias ..="cd .."
+alias vim="nvim"
 ' >> ~/.zshrc
 
 echo 'export PATH=$PATH:/usr/local/go/bin:/home/exefree/go/bin' >> ~/.zshrc

@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-git clone https://github.com/danielmiessler/SecLists /opt/SecLists
+sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
