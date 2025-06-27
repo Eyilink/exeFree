@@ -63,16 +63,27 @@ services:
                 Set-Content -Path "$ScriptDir\docker-compose.override.yml" -Value $override
             }
 
-
+            if($Vpn -and $Workspace)
+            {
+                $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
+                $vpnPath = (Resolve-Path $Vpn).Path
+                if(!(Test-Path $workspacePath)) {
+                    New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
+                }
+                 $override = @"
+version: '3'
+services:
+  ${containerName}:
+    volumes:
+      - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
+      - "${workspacePath}:/workspace"
+    entrypoint: ["/entrypoint.sh", "--vpn", "/vpn/$(Split-Path -Leaf $vpnPath)"]
+"@
+                Set-Content -Path "$ScriptDir\docker-compose.override.yml" -Value $override
+            }
 
             if($Vpn -or $Workspace)
         {
-            
-      
-        
-
-
-  
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" up -d
             
         }
