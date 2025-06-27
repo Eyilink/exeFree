@@ -120,6 +120,10 @@ services:
         docker compose -f "$ScriptDir\docker-compose.yml" down
         
     }
+    "build"
+    {
+        docker compose -f "$ScriptDir\docker-compose.yml" build
+    }
     Default {
         Write-Output "Usage: ./exefree.ps1 start -Vpn path.ovpn -Workspace C:\path\to\folder"
     }
