@@ -1,3 +1,3 @@
- - GDB
+sudo apt install gdb
 
- - placer dans ~/.gdbinit set disassembly intel
+echo "set disassembly intel" > ~/.gdbinit 
