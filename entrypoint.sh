@@ -2,6 +2,9 @@
 #!/bin/bash
 set -e
 
+echo "Configuring git"
+git config --global user.name "exefree"
+git config --global user.email "exefree@outlook.com"
 # Enable detailed logging
 echo "[DEBUG] Script started with arguments: $*"
 echo "[DEBUG] Number of arguments: $#"

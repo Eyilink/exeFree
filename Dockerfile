@@ -59,6 +59,8 @@ RUN sudo chmod +x /opt/tools/*.sh
 RUN /opt/tools/customize_shell.sh
 RUN /opt/tools/install_nvim.sh
 RUN /opt/tools/install_fzf.sh
+RUN /opt/tools/install_ssh_agent.sh
+RUN /opt/tools/install_reverse.sh
 RUN sudo /opt/tools/install_web.sh
 #RUN /opt/tools/install_internal.sh
 # Run the Neovim install script as root (or switch to non-root user later)
