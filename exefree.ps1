@@ -9,6 +9,7 @@ $containerName = "exefree"
 $labelFilter = "app=exefree"
 $homeDir = $env:USERPROFILE
 
+
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 function Wait-ForContainer {
@@ -38,6 +39,7 @@ switch ($Command) {
 version: '3'
 services:
   ${containerName}:
+    container_name: $containerName$Workspace
     volumes:
       - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
       - "$ScriptDir/workspace/:/workspace"
@@ -56,6 +58,7 @@ services:
 version: '3'
 services:
   ${containerName}:
+    container_name: $containerName$Workspace
     volumes:
       - "${workspacePath}:/workspace"
     entrypoint: ["/entrypoint.sh"]
@@ -74,6 +77,7 @@ services:
 version: '3'
 services:
   ${containerName}:
+    container_name: $containerName$Workspace
     volumes:
       - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
       - "${workspacePath}:/workspace"
@@ -100,6 +104,7 @@ services:
          if ( Test-Path "$ScriptDir\docker-compose.override.yml" -PathType Leaf)
         {
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" stop
+            Remove-Item "$ScriptDir\docker-compose.override.yml" -ErrorAction SilentlyContinue
         }
         docker compose -f "$ScriptDir\docker-compose.yml" stop
     }
@@ -123,6 +128,22 @@ services:
     "build"
     {
         docker compose -f "$ScriptDir\docker-compose.yml" build
+    }
+    "info" {
+    Write-Output "Exefree workspaces available :"
+    
+    # Get all directories in the workspace folder
+    $workspacePath = "$homeDir/workspace/"
+    
+    # Check if the workspace directory exists
+    if (Test-Path $workspacePath) {
+        # Get all directories and display their names
+        Get-ChildItem -Path $workspacePath -Directory | ForEach-Object {
+            Write-Output "  - $($_.Name)"
+        }
+    } else {
+        Write-Output "  Workspace directory not found: $workspacePath"
+    }
     }
     Default {
         Write-Output "Usage: ./exefree.ps1 start -Vpn path.ovpn -Workspace C:\path\to\folder"

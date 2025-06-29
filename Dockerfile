@@ -10,6 +10,19 @@ RUN apt update && apt install -y \
   libx11-6 libxtst6 libxrender1 libxi6 openvpn iproute2 iputils-ping \
   && apt clean
 
+RUN apt update && apt install -y \
+  firefox-esr \
+  x11vnc \
+  xvfb \
+  fluxbox \
+  supervisor \
+  && apt clean
+
+RUN mkdir -p /root/.vnc && \
+    x11vnc -storepasswd 1234 /root/.vnc/passwd
+
+COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 RUN apt update && apt install -y wget gnupg && \
     wget -O /etc/apt/trusted.gpg.d/adoptium.asc https://packages.adoptium.net/artifactory/api/gpg/key/public && \
     echo "deb https://packages.adoptium.net/artifactory/deb bookworm main" > /etc/apt/sources.list.d/adoptium.list && \

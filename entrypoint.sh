@@ -95,6 +95,8 @@ echo "[DEBUG] Script execution completed"
 #   cd "$WORKSPACE"
 # fi
 cd "/workspace"
+sudo chown -R exefree:exefree /var/log/supervisor
+sudo /usr/bin/supervisord -n
 
 authenticate_user() {
     echo "Enter your system username:"

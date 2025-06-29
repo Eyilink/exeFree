@@ -1,5 +1,5 @@
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 
-sudo eval "$(ssh-agent -s)"
+eval "$(ssh-agent -s)"
 
 ssh-add /home/exefree/.ssh/id_rsa
