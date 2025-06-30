@@ -1,7 +1,8 @@
 param (
     [string]$Command,
     [string]$Workspace = "",
-    [string]$Vpn = ""
+    [string]$Vpn = "",
+    [string]$Type = ""
 )
 
 $serviceName = "exefree"
@@ -127,7 +128,7 @@ services:
     }
     "build"
     {
-        docker compose -f "$ScriptDir\docker-compose.yml" build
+        docker compose -f "$ScriptDir\docker-compose.yml" build --build-arg PROFILE="$Type"
     }
     "info" {
     Write-Output "Exefree workspaces available :"

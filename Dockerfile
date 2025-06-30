@@ -2,6 +2,8 @@ FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+ARG PROFILE
+
 RUN apt update && apt install -y \
   python3 python3-pip git curl wget \
   nmap netcat-traditional zsh vim tmux sudo unzip \
@@ -75,7 +77,13 @@ RUN /opt/tools/install_fzf.sh
 RUN /opt/tools/install_ssh_agent.sh
 RUN /opt/tools/install_reverse.sh
 RUN sudo /opt/tools/install_web.sh
-#RUN /opt/tools/install_internal.sh
+
+RUN if [ "$PROFILE" = "internal" ]; then \
+      /opt/tools/install_internal.sh; \
+    else \
+      echo "Skipping optional tools installation."; \
+    fi
+
 # Run the Neovim install script as root (or switch to non-root user later)
 COPY entrypoint.sh /entrypoint.sh
 RUN sudo chmod +x /entrypoint.sh
