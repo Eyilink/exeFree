@@ -59,21 +59,21 @@ echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
 
 echo "[*] Downloading linPEAS and winPEAS..."
-wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
-wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
+sudo wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
 
 echo "[*] Installing PrivescCheck (Windows)..."
-git clone https://github.com/itm4n/PrivescCheck.git
+sudo git clone https://github.com/itm4n/PrivescCheck.git
 
 echo "[*] Installing chisel..."
-wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
-gunzip chisel_1.9.1_linux_amd64.gz
-chmod +x chisel_1.9.1_linux_amd64
-mv chisel_1.9.1_linux_amd64 chisel
+sudo wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
+sudo gunzip chisel_1.9.1_linux_amd64.gz
+sudo chmod +x chisel_1.9.1_linux_amd64
+sudo mv chisel_1.9.1_linux_amd64 chisel
 
 echo "[*] Installing ligolo-ng..."
-git clone https://github.com/nicocha30/ligolo-ng.git
-cd ligolo-ng/agent && make build && cd ../..
+sudo git clone https://github.com/nicocha30/ligolo-ng.git
+sudi cd ligolo-ng/agent && make build && cd ../..
 
 echo "[*] Installing metasploit..."
 sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
