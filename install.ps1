@@ -1,11 +1,11 @@
 # install.ps1
-Write-Host "[*] Building Docker container..." -ForegroundColor Cyan
-docker-compose build
+# Write-Host "[*] Building Docker container..." -ForegroundColor Cyan
+# docker-compose build
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "[-] Docker build failed."
-    exit 1
-}
+# if ($LASTEXITCODE -ne 0) {
+#     Write-Error "[-] Docker build failed."
+#     exit 1
+# }
 
 Write-Host "[*] Running setup_xserver.ps1..." -ForegroundColor Cyan
 
@@ -27,9 +27,18 @@ Set-Alias -Name exefree -Value $wrapperScript
 
 # Make alias persistent by adding it to user's PowerShell profile
 $profilePath = $PROFILE
-if (-not (Test-Path $profilePath)) {
-    New-Item -ItemType File -Path $profilePath -Force
+$profileDir = Split-Path $profilePath
+
+# Ensure profile directory exists
+if (-not (Test-Path $profileDir)) {
+    New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
 }
+
+# Ensure profile file exists
+if (-not (Test-Path $profilePath)) {
+    New-Item -ItemType File -Path $profilePath -Force | Out-Null
+}
+
 
 $aliasLine = "Set-Alias exefree `"$wrapperScript`""
 if (-not (Get-Content $profilePath | Select-String -SimpleMatch "Set-Alias exefree")) {

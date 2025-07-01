@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG PROFILE
 
 RUN apt update && apt install -y \
-  python3 python3-pip git curl wget \
+  python3 python3-pip git curl wget dos2unix \
   nmap netcat-traditional zsh vim tmux sudo unzip \
   ninja-build gettext cmake build-essential libpcap-dev \
   x11-apps \
@@ -71,6 +71,7 @@ ENV ZSH_DISABLE_COMPFIX=true
 # Make sure scripts are executable (optional, but good practice)
 RUN sudo chmod +x /opt/tools/*.sh
 # RUN sudo /opt/tools/install.sh
+RUN sudo dos2unix /opt/tools/*.sh
 RUN /opt/tools/customize_shell.sh
 RUN /opt/tools/install_nvim.sh
 RUN /opt/tools/install_fzf.sh
