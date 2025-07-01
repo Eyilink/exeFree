@@ -18,7 +18,8 @@ if [ -d /opt/tools ]; then
         sudo mkdir -p /opt/tools && cd /opt/tools
 fi
 
-
+sudo chown exefree:exefree /opt/tools
+sudo u+w /opt/tools
 # echo "[*] Installing Neo4j..."
 # wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
 # echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.4" | sudo tee /etc/apt/sources.list.d/neo4j.list
@@ -40,12 +41,12 @@ cd NetExec && pip3 install . --break-system-packages && cd /opt/tools
 echo "[*] Installing Responder..."
 git clone https://github.com/lgandx/Responder.git
 cd Responder && sudo pip3 install -r requirements.txt --break-system-packages && cd /opt/tools
-echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> ~/.zshrc
+echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> /home/exefree/.zshrc
 
 
 echo "[*] Installing enum4linux-ng..."
 git clone https://github.com/cddmp/enum4linux-ng.git
-echo 'alias enum4linux-ng="sudo python3 /opt/tools/enum4linux-ng/enum4linux-ng.py"' >> ~/.zshrc
+echo 'alias enum4linux-ng="sudo python3 /opt/tools/enum4linux-ng/enum4linux-ng.py"' >> /home/exefree/.zshrc
 
 
 echo "[*] Installing smbmap..."
@@ -58,7 +59,7 @@ echo "[*] Installing kerbrute..."
 wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
 sudo chmod +x kerbrute_linux_amd64
 mv kerbrute_linux_amd64 kerbrute
-echo 'alias kerbrute="/opt/tools/kerbrute"' >> ~/.zshrc
+echo 'alias kerbrute="/opt/tools/kerbrute"' >> /home/exefree/.zshrc
 
 echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
@@ -77,11 +78,11 @@ wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_li
 gunzip chisel_1.9.1_linux_amd64.gz
 sudo chmod +x chisel_1.9.1_linux_amd64
 mv chisel_1.9.1_linux_amd64 chisel
-echo 'alias chisel="/opt/tools/chisel"' >> ~/.zshrc
+echo 'alias chisel="/opt/tools/chisel"' >> /home/exefree/.zshrc
 
 echo "[*] Installing ligolo-ng..."
 git clone https://github.com/nicocha30/ligolo-ng.git
-cd ligolo-ng/ && sudo go build -o agent cmd/agent/main.go && sudo go build -o proxy cmd/proxy/main.go && cd /opt/tools
+cd ligolo-ng/ && /usr/local/go/bin/go build -o agent cmd/agent/main.go && /usr/local/go/bin/go build -o proxy cmd/proxy/main.go && cd /opt/tools
 
 
 echo "[*] Installing metasploit..."
@@ -92,7 +93,7 @@ sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1
     sudo bundle install
 echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
 alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
-' >> ~/.zshrc
+' >> /home/exefree/.zshrc
 
 
 echo "[*] All tools installed in ~/tools"
