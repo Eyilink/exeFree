@@ -49,11 +49,6 @@ RUN useradd -ms /bin/zsh exefree && \
     echo "exefree:exefree" | chpasswd && \
     echo "exefree ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER exefree
-WORKDIR /workspace
-
-# Copy the tools directory into the image
-COPY tools /opt/tools
 COPY resources /opt/resources
 
 # Install Go from tarball
@@ -61,6 +56,13 @@ RUN sudo tar -C /usr/local -xzf /opt/resources/go1.24.4.linux-amd64.tar.gz && \
     mkdir -p /home/exefree/go/bin
 
 ENV PATH=/usr/local/go/bin:/home/exefree/go/bin:$PATH
+
+USER exefree
+WORKDIR /workspace
+
+# Copy the tools directory into the image
+COPY tools /opt/tools
+
 
 RUN echo 'zsh-newuser-install() { :; }' >> /home/exefree/.zshrc && \
     touch /home/exefree/.zshenv /home/exefree/.zsh_history && \

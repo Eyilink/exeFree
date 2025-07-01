@@ -31,21 +31,25 @@ fi
 
 echo "[*] Installing Impacket..."
 git clone https://github.com/fortra/impacket.git
-cd impacket && pip3 --break-system-packages install . && cd ..
+cd impacket && pip3 install . --break-system-packages && cd /opt/tools
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
 git clone https://github.com/Pennyw0rth/NetExec.git
-cd NetExec && pip3 --break-system-packages install . && cd ..
+cd NetExec && pip3 install . --break-system-packages && cd /opt/tools
 
 echo "[*] Installing Responder..."
 git clone https://github.com/lgandx/Responder.git
+cd Responder && sudo pip3 install -r requirements.txt --break-system-packages && cd /opt/tools
+echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> ~/.zshrc
+
 
 echo "[*] Installing enum4linux-ng..."
 git clone https://github.com/cddmp/enum4linux-ng.git
+echo 'alias enum4linux-ng="sudo python3 /opt/tools/enum4linux-ng/enum4linux-ng.py"' >> ~/.zshrc
+
 
 echo "[*] Installing smbmap..."
-git clone https://github.com/ShawnDEvans/smbmap.git
-cd smbmap && pip3 --break-system-packages install -r requirements.txt && cd ..
+sudo pip3 install smbmap && cd /opt/tools
 
 echo "[*] Installing hashcat..."
 sudo apt install -y hashcat
@@ -54,6 +58,7 @@ echo "[*] Installing kerbrute..."
 wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
 sudo chmod +x kerbrute_linux_amd64
 mv kerbrute_linux_amd64 kerbrute
+echo 'alias kerbrute="/opt/tools/kerbrute"' >> ~/.zshrc
 
 echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
@@ -61,6 +66,8 @@ sudo apt install -y snmp
 echo "[*] Downloading linPEAS and winPEAS..."
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
+
+
 
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git
@@ -70,10 +77,12 @@ wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_li
 gunzip chisel_1.9.1_linux_amd64.gz
 sudo chmod +x chisel_1.9.1_linux_amd64
 mv chisel_1.9.1_linux_amd64 chisel
+echo 'alias chisel="/opt/tools/chisel"' >> ~/.zshrc
 
 echo "[*] Installing ligolo-ng..."
 git clone https://github.com/nicocha30/ligolo-ng.git
-cd ligolo-ng/agent && make build && cd ../..
+cd ligolo-ng/ && sudo go build -o agent cmd/agent/main.go && sudo go build -o proxy cmd/proxy/main.go && cd /opt/tools
+
 
 echo "[*] Installing metasploit..."
 sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
@@ -81,5 +90,9 @@ sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1
     cd /opt/tools/metasploit-framework && \
     sudo gem install bundler && \
     sudo bundle install
+echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
+alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
+' >> ~/.zshrc
+
 
 echo "[*] All tools installed in ~/tools"

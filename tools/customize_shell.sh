@@ -21,6 +21,10 @@
 #   $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
 # echo 'plugins=(git sudo z history zsh-autosuggestions zsh-syntax-highlighting)' >> ~/.zshrc
+sudo apt install zsh-syntax-highlighting
+echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+sudo apt install zsh-autosuggestions
+echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
 
 echo 'alias la="ls -la"
 alias gs="git status"

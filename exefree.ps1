@@ -89,11 +89,11 @@ services:
 
             if($Vpn -or $Workspace)
         {
-            docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" up -d
+            docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" up -d --no-build
             
         }
        else {
-        docker compose -f "$ScriptDir\docker-compose.yml" up -d
+        docker compose -f "$ScriptDir\docker-compose.yml" up -d --no-build
        }
 
         
