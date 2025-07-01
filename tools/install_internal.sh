@@ -18,8 +18,6 @@ if [ -d /opt/tools ]; then
         sudo mkdir -p /opt/tools && cd /opt/tools
 fi
 
-sudo chown exefree:exefree /opt/tools
-sudo u+w /opt/tools
 # echo "[*] Installing Neo4j..."
 # wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
 # echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.4" | sudo tee /etc/apt/sources.list.d/neo4j.list
@@ -83,7 +81,9 @@ echo 'alias chisel="/opt/tools/chisel"' >> /home/exefree/.zshrc
 echo "[*] Installing ligolo-ng..."
 git clone https://github.com/nicocha30/ligolo-ng.git
 cd ligolo-ng/ && /usr/local/go/bin/go build -o agent cmd/agent/main.go && /usr/local/go/bin/go build -o proxy cmd/proxy/main.go && cd /opt/tools
-
+echo 'alias ligolo-agent="/opt/tools/ligolo-ng/agent"
+alias ligolo-proxy="/opt/tools/ligolo-ng/proxy"
+' >> /home/exefree/.zshrc
 
 echo "[*] Installing metasploit..."
 sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
