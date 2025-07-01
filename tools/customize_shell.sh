@@ -35,6 +35,15 @@ alias vim="nvim"
 echo 'export PATH=$PATH:/usr/local/go/bin:/home/exefree/go/bin' >> ~/.zshrc
 echo 'export GO111MODULE=on' >> ~/.zshrc
 
-echo "PROMPT='%F{green}%n@%m%f: %F{blue}%~%f  '" >> ~/.zshrc
+echo "PROMPT='%F{magenta}[%n@%m]%f - %F{blue}%~%f  '" >> ~/.zshrc
+
+echo "autoload -Uz compinit && compinit" >> ~/.zshrc
+echo "autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+RPROMPT=\$vcs_info_msg_0_
+# PROMPT=\$vcs_info_msg_0_'%# '
+zstyle ':vcs_info:git:*' formats '%b'" >> ~/.zshrc
 
 # source ~/.zshrc
