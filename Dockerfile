@@ -87,6 +87,7 @@ RUN if [ "$PROFILE" = "internal" ]; then \
 
 # Run the Neovim install script as root (or switch to non-root user later)
 COPY entrypoint.sh /entrypoint.sh
+RUN sudo dos2unix /entrypoint.sh
 RUN sudo chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
