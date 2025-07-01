@@ -12,7 +12,12 @@ sudo apt update && sudo apt install -y \
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
 
 echo "[*] Creating tools directory..."
-mkdir -p /opt/tools && cd /opt/tools
+if [ -d /opt/tools]; then
+        cd /opt/tools
+    else
+        sudo mkdir -p /opt/tools && cd /opt/tools
+fi
+
 
 # echo "[*] Installing Neo4j..."
 # wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
@@ -25,30 +30,30 @@ mkdir -p /opt/tools && cd /opt/tools
 # ./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
-git clone https://github.com/fortra/impacket.git
+sudo git clone https://github.com/fortra/impacket.git
 cd impacket && pip3 --break-system-packages install . && cd ..
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
-git clone https://github.com/Pennyw0rth/NetExec.git
+sudo git clone https://github.com/Pennyw0rth/NetExec.git
 cd NetExec && pip3 --break-system-packages install . && cd ..
 
 echo "[*] Installing Responder..."
-git clone https://github.com/lgandx/Responder.git
+sudo git clone https://github.com/lgandx/Responder.git
 
 echo "[*] Installing enum4linux-ng..."
-git clone https://github.com/cddmp/enum4linux-ng.git
+sudo git clone https://github.com/cddmp/enum4linux-ng.git
 
 echo "[*] Installing smbmap..."
-git clone https://github.com/ShawnDEvans/smbmap.git
+sudo git clone https://github.com/ShawnDEvans/smbmap.git
 cd smbmap && pip3 --break-system-packages install -r requirements.txt && cd ..
 
 echo "[*] Installing hashcat..."
 sudo apt install -y hashcat
 
 echo "[*] Installing kerbrute..."
-wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
-chmod +x kerbrute_linux_amd64
-mv kerbrute_linux_amd64 kerbrute
+sudo wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
+sudo chmod +x kerbrute_linux_amd64
+sudo mv kerbrute_linux_amd64 kerbrute
 
 echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
