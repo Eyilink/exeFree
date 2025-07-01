@@ -80,7 +80,7 @@ RUN /opt/tools/install_reverse.sh
 RUN sudo /opt/tools/install_web.sh
 
 RUN if [ "$PROFILE" = "internal" ]; then \
-      /opt/tools/install_internal.sh; \
+      sudo /opt/tools/install_internal.sh; \
     else \
       echo "Skipping optional tools installation."; \
     fi

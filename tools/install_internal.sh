@@ -12,7 +12,7 @@ sudo apt update && sudo apt install -y \
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
 
 echo "[*] Creating tools directory..."
-if [ -d /opt/tools]; then
+if [ -d /opt/tools ]; then
         cd /opt/tools
     else
         sudo mkdir -p /opt/tools && cd /opt/tools
@@ -30,50 +30,50 @@ fi
 # ./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
-sudo git clone https://github.com/fortra/impacket.git
+git clone https://github.com/fortra/impacket.git
 cd impacket && pip3 --break-system-packages install . && cd ..
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
-sudo git clone https://github.com/Pennyw0rth/NetExec.git
+git clone https://github.com/Pennyw0rth/NetExec.git
 cd NetExec && pip3 --break-system-packages install . && cd ..
 
 echo "[*] Installing Responder..."
-sudo git clone https://github.com/lgandx/Responder.git
+git clone https://github.com/lgandx/Responder.git
 
 echo "[*] Installing enum4linux-ng..."
-sudo git clone https://github.com/cddmp/enum4linux-ng.git
+git clone https://github.com/cddmp/enum4linux-ng.git
 
 echo "[*] Installing smbmap..."
-sudo git clone https://github.com/ShawnDEvans/smbmap.git
+git clone https://github.com/ShawnDEvans/smbmap.git
 cd smbmap && pip3 --break-system-packages install -r requirements.txt && cd ..
 
 echo "[*] Installing hashcat..."
 sudo apt install -y hashcat
 
 echo "[*] Installing kerbrute..."
-sudo wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
+wget https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
 sudo chmod +x kerbrute_linux_amd64
-sudo mv kerbrute_linux_amd64 kerbrute
+mv kerbrute_linux_amd64 kerbrute
 
 echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
 
 echo "[*] Downloading linPEAS and winPEAS..."
-sudo wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
-sudo wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
+wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
+wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
 
 echo "[*] Installing PrivescCheck (Windows)..."
-sudo git clone https://github.com/itm4n/PrivescCheck.git
+git clone https://github.com/itm4n/PrivescCheck.git
 
 echo "[*] Installing chisel..."
-sudo wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
-sudo gunzip chisel_1.9.1_linux_amd64.gz
+wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
+gunzip chisel_1.9.1_linux_amd64.gz
 sudo chmod +x chisel_1.9.1_linux_amd64
-sudo mv chisel_1.9.1_linux_amd64 chisel
+mv chisel_1.9.1_linux_amd64 chisel
 
 echo "[*] Installing ligolo-ng..."
-sudo git clone https://github.com/nicocha30/ligolo-ng.git
-sudi cd ligolo-ng/agent && make build && cd ../..
+git clone https://github.com/nicocha30/ligolo-ng.git
+cd ligolo-ng/agent && make build && cd ../..
 
 echo "[*] Installing metasploit..."
 sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
