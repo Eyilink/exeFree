@@ -115,12 +115,24 @@ services:
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" down
             Remove-Item "$ScriptDir\docker-compose.override.yml" -ErrorAction SilentlyContinue
         }
-        if($Workspace)
-        {
+
+        
+        if ($Workspace) {
             $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
-             if(Test-Path $workspacePath) {
-                   Remove-Item $workspacePath -Force -Recurse -ErrorAction SilentlyContinue
+
+            if (Test-Path $workspacePath) {
+                Write-Output "Do you want to delete the '$workspacePath' directory? [y/n]"
+                $response = Read-Host
+
+                if ($response -eq 'y' -or $response -eq 'Y') {
+                    Remove-Item $workspacePath -Force -Recurse -ErrorAction SilentlyContinue
+                    Write-Output "Directory deleted."
+                } else {
+                    Write-Output "Directory not deleted."
                 }
+            } else {
+                Write-Output "Path '$workspacePath' does not exist."
+            }
         }
        
         docker compose -f "$ScriptDir\docker-compose.yml" down
