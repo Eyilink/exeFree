@@ -95,5 +95,7 @@ echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
 alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
 ' >> /home/exefree/.zshrc
 
+echo "[*] Installing Evil-Winrm..."
+sudo gem install evil-winrm
 
 echo "[*] All tools installed in ~/tools"

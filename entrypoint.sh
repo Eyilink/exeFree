@@ -95,7 +95,6 @@ echo "[DEBUG] Script execution completed"
 #   cd "$WORKSPACE"
 # fi
 cd "/workspace"
-source ~/.zshrc
 sudo chown -R exefree:exefree /var/log/supervisor
 sudo /usr/bin/cat -n
 
