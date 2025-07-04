@@ -6,7 +6,7 @@ echo "[*] Updating system and installing dependencies..."
 sudo apt update && sudo apt install -y \
     git python3 python3-pip build-essential libssl-dev libffi-dev \
     python3-dev python3-venv unzip wget curl make gcc \
-    smbclient rpcbind snmp \
+    smbclient rpcbind snmp ntpdate\
     ldap-utils net-tools proxychains4
 
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
@@ -94,6 +94,20 @@ sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1
 echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
 alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
 ' >> /home/exefree/.zshrc
+
+echo "[*] Installing faketime"
+cd /opt/tools
+git clone https://github.com/wolfcw/libfaketime.git
+cd libfaketime
+sudo make install
+echo 'sync_time() {
+  if [ -z "$1" ]; then
+    echo "Usage: sync_time '<timestamp>'"
+    echo "Example: sync_time '2025-07-04 23:03:25'"
+    return 1
+  fi
+  /usr/local/bin/faketime "$1" zsh
+}' >> ~/.zshrc
 
 echo "[*] Installing Evil-Winrm..."
 sudo gem install evil-winrm
