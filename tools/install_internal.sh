@@ -65,7 +65,16 @@ sudo apt install -y snmp
 echo "[*] Downloading linPEAS and winPEAS..."
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
-
+sudo wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
+sudo wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1
+sudo wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll
+sudo wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.212/Snaffler.exe
+sudo wget https://raw.githubusercontent.com/itm4n/PrivescCheck/refs/heads/master/PrivescCheck.ps1
+sudo wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/master/Rubeus.exe
+sudo wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimikatz.exe
+sudo wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
+sudo wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net3.5-v2.0.11.zip
+sudo pip3 install pypykatz --break-system-packages
 
 
 echo "[*] Installing PrivescCheck (Windows)..."
