@@ -29,8 +29,8 @@ fi
 # ./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
-git clone https://github.com/fortra/impacket.git
-cd impacket && pip3 install . --break-system-packages && cd /opt/tools
+#git clone https://github.com/fortra/impacket.git
+cd impacket && sudo pip3 install impacket --break-system-packages && cd /opt/tools
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
 git clone https://github.com/Pennyw0rth/NetExec.git
@@ -75,8 +75,9 @@ sudo wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimi
 sudo wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
 sudo wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net3.5-v2.0.11.zip
 sudo pip3 install pypykatz --break-system-packages
-
-
+sudo pip3 install lsassy --break-system-packages
+sudo pip3 install certipy-ad --break-system-packages
+sudo pip3 install coercer --break-system-packages
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git
 
