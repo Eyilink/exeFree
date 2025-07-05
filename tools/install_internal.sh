@@ -107,10 +107,7 @@ alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
 ' >> /home/exefree/.zshrc
 
 echo "[*] Installing faketime"
-cd /opt/tools
-git clone https://github.com/wolfcw/libfaketime.git
-cd libfaketime
-sudo make install
+cd /opt/tools && git clone https://github.com/wolfcw/libfaketime.git && cd libfaketime && sudo make install && cd /opt/tools
 
 echo 'sync_time() {
   if [ -z "$1" ]; then
@@ -135,7 +132,7 @@ echo 'sync_time() {
 
   echo "Starting zsh with faketime offset: $faketime_str"
   /usr/local/bin/faketime "$faketime_str" zsh
-}' >> ~/.zshrc
+}' >> /home/exefree/.zshrc
 
 
 echo "[*] Installing Evil-Winrm..."
