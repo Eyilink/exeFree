@@ -116,7 +116,7 @@ echo 'sync_time() {
     return 1
   fi
 
-  offset=$(ntpdate -q "$1" 2>/dev/null | grep -oP "offset \K[-]?[0-9]+\.[0-9]+")
+  offset=$(ntpdate -q "$1" 2>/dev/null | grep -oP "(?<=\+)\d+(?=\.)")
   if [ -z "$offset" ]; then
     echo "Failed to get offset from NTP server"
     return 1
@@ -125,9 +125,9 @@ echo 'sync_time() {
   # Round the offset to the nearest second
   rounded_offset=$(printf "%.0f" "$offset")
   if [ "$rounded_offset" -ge 0 ]; then
-    faketime_str="+${rounded_offset}s"
+    faketime_str="${rounded_offset} seconds"
   else
-    faketime_str="${rounded_offset}s"
+    faketime_str="${rounded_offset} seconds"
   fi
 
   echo "Starting zsh with faketime offset: $faketime_str"
