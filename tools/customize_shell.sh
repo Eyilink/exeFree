@@ -38,6 +38,7 @@ echo 'export GO111MODULE=on' >> ~/.zshrc
 echo "PROMPT='%F{magenta}[%n@%m]%f - %F{blue}%~%f  '" >> ~/.zshrc
 
 echo "autoload -Uz compinit && compinit" >> ~/.zshrc
+
 echo "autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )

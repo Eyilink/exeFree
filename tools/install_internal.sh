@@ -78,6 +78,7 @@ sudo pip3 install pypykatz --break-system-packages
 sudo pip3 install lsassy --break-system-packages
 sudo pip3 install certipy-ad --break-system-packages
 sudo pip3 install coercer --break-system-packages
+
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git
 
@@ -110,14 +111,32 @@ cd /opt/tools
 git clone https://github.com/wolfcw/libfaketime.git
 cd libfaketime
 sudo make install
+
 echo 'sync_time() {
   if [ -z "$1" ]; then
-    echo "Usage: sync_time '<timestamp>'"
-    echo "Example: sync_time '2025-07-04 23:03:25'"
+    echo "Usage: sync_time <ntp_server_ip>"
+    echo "Example: sync_time 1.1.1.1"
     return 1
   fi
-  /usr/local/bin/faketime "$1" zsh
+
+  offset=$(ntpdate -q "$1" 2>/dev/null | grep -oP "offset \K[-]?[0-9]+\.[0-9]+")
+  if [ -z "$offset" ]; then
+    echo "Failed to get offset from NTP server"
+    return 1
+  fi
+
+  # Round the offset to the nearest second
+  rounded_offset=$(printf "%.0f" "$offset")
+  if [ "$rounded_offset" -ge 0 ]; then
+    faketime_str="+${rounded_offset}s"
+  else
+    faketime_str="${rounded_offset}s"
+  fi
+
+  echo "Starting zsh with faketime offset: $faketime_str"
+  /usr/local/bin/faketime "$faketime_str" zsh
 }' >> ~/.zshrc
+
 
 echo "[*] Installing Evil-Winrm..."
 sudo gem install evil-winrm
