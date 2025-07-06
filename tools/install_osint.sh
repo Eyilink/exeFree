@@ -24,11 +24,11 @@ cd subfinder && go install ./... && cd ..
 
 echo "[+] Cloning DnsRecon..."
 git clone https://github.com/darkoperator/dnsrecon.git
-cd dnsrecon && pip3 install -r requirements.txt && cd ..
+cd dnsrecon && pip install -r requirements.txt && cd ..
 
 echo "[+] Cloning Pastos..."
 git clone https://github.com/carlospolop/Pastos.git
-cd Pastos && pip3 install -r requirements.txt && cd ..
+cd Pastos && pip install -r requirements.txt && cd ..
 
 echo "[+] Cloning favihash.py..."
 git clone https://github.com/m4ll0k/BBTz.git
@@ -36,7 +36,7 @@ git clone https://github.com/m4ll0k/BBTz.git
 
 echo "[+] Cloning linkedin2username..."
 git clone https://github.com/initstring/linkedin2username.git
-cd linkedin2username && pip3 install -r requirements.txt && cd ..
+cd linkedin2username && pip install -r requirements.txt && cd ..
 
 echo "[+] Cloning httpx..."
 git clone https://github.com/projectdiscovery/httpx.git

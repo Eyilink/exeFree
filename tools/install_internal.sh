@@ -10,6 +10,7 @@ sudo apt update && sudo apt install -y \
     ldap-utils net-tools proxychains4
 
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
+sudo chown -hR exefree:exefree /opt/
 
 echo "[*] Creating tools directory..."
 if [ -d /opt/tools ]; then
@@ -29,16 +30,20 @@ fi
 # ./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
-#git clone https://github.com/fortra/impacket.git
-cd impacket && sudo pip3 install impacket --break-system-packages && cd /opt/tools
+git clone https://github.com/fortra/impacket.git
+cd impacket && uv tool install . 
+cd /opt/tools/impacket/examples && sudo wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/refs/heads/main/Python/passthecert.py
+export PATH="$PATH:/opt/tools/impacket/examples"
+sudo chmod +x /opt/tools/impacket/examples/*
+cd /opt/tools
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
 git clone https://github.com/Pennyw0rth/NetExec.git
-cd NetExec && pip3 install . --break-system-packages && cd /opt/tools
+cd NetExec && uv tool install . && cd /opt/tools
 
 echo "[*] Installing Responder..."
 git clone https://github.com/lgandx/Responder.git
-cd Responder && sudo pip3 install -r requirements.txt --break-system-packages && cd /opt/tools
+cd Responder && uv pip install -r requirements.txt --system && cd /opt/tools
 echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> /home/exefree/.zshrc
 
 
@@ -48,7 +53,7 @@ echo 'alias enum4linux-ng="sudo python3 /opt/tools/enum4linux-ng/enum4linux-ng.p
 
 
 echo "[*] Installing smbmap..."
-sudo pip3 install smbmap && cd /opt/tools
+uv tool install smbmap
 
 echo "[*] Installing hashcat..."
 sudo apt install -y hashcat
@@ -65,19 +70,19 @@ sudo apt install -y snmp
 echo "[*] Downloading linPEAS and winPEAS..."
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
-sudo wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
-sudo wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1
-sudo wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll
-sudo wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.212/Snaffler.exe
-sudo wget https://raw.githubusercontent.com/itm4n/PrivescCheck/refs/heads/master/PrivescCheck.ps1
-sudo wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/master/Rubeus.exe
-sudo wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimikatz.exe
-sudo wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
-sudo wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net3.5-v2.0.11.zip
-sudo pip3 install pypykatz --break-system-packages
-sudo pip3 install lsassy --break-system-packages
-sudo pip3 install certipy-ad --break-system-packages
-sudo pip3 install coercer --break-system-packages
+wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
+wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1
+wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll
+wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.212/Snaffler.exe
+wget https://raw.githubusercontent.com/itm4n/PrivescCheck/refs/heads/master/PrivescCheck.ps1
+wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/master/Rubeus.exe
+wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimikatz.exe
+wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
+wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net3.5-v2.0.11.zip
+uv tool install pypykatz
+uv tool install lsassy
+uv tool install certipy-ad
+uv tool install coercer
 
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git

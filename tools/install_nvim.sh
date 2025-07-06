@@ -14,9 +14,7 @@ sudo make install
 
 
 
-# Install pynvim via pip (for python plugin support)
-echo "Installing pynvim python package..."
-pip3 install --break-system-packages --user pynvim
+
 
 # Create config directory if it doesn't exist
 CONFIG_DIR="$HOME/.config/nvim"

@@ -5,12 +5,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG PROFILE
 
 RUN apt update && apt install -y \
-  python3 python3-pip git curl wget dos2unix \
+  git curl wget dos2unix python3 python3-pip ruby-full \
   nmap netcat-traditional zsh vim tmux sudo unzip \
   ninja-build gettext cmake build-essential libpcap-dev \
   x11-apps \
   libx11-6 libxtst6 libxrender1 libxi6 openvpn iproute2 iputils-ping \
   && apt clean
+
+RUN sudo apt update && sudo apt install -y \
+  make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+  libffi-dev liblzma-dev
 
 RUN apt update && apt install -y \
   firefox-esr \
@@ -39,7 +45,7 @@ RUN apt update && apt install -y wget gnupg && \
 #     && chmod +x /usr/local/bin/gocryptfs
 
 # Installer les outils de base
-RUN pip3 install --break-system-packages pipx && pipx ensurepath
+#RUN pip3 install --break-system-packages pipx && pipx ensurepath
 
 # Cloner et installer des outils
 #RUN git clone https://github.com/danielmiessler/SecLists /opt/SecLists
@@ -69,20 +75,21 @@ RUN echo 'zsh-newuser-install() { :; }' >> /home/exefree/.zshrc && \
     sudo chown -R exefree:exefree /home/exefree
 
 ENV ZSH_DISABLE_COMPFIX=true
+ENV PATH="$PATH:/home/exefree/.local/bin"
 
 # Make sure scripts are executable (optional, but good practice)
 RUN sudo chmod +x /opt/tools/*.sh
 # RUN sudo /opt/tools/install.sh
 RUN sudo dos2unix /opt/tools/*.sh
 RUN /opt/tools/customize_shell.sh
-RUN /opt/tools/install_nvim.sh
-RUN /opt/tools/install_fzf.sh
-RUN /opt/tools/install_ssh_agent.sh
-RUN /opt/tools/install_reverse.sh
-RUN sudo /opt/tools/install_web.sh
+# RUN /opt/tools/install_nvim.sh
+# RUN /opt/tools/install_fzf.sh
+# RUN /opt/tools/install_ssh_agent.sh
+# RUN /opt/tools/install_reverse.sh
+# RUN sudo /opt/tools/install_web.sh
 
 RUN if [ "$PROFILE" = "internal" ]; then \
-      sudo /opt/tools/install_internal.sh; \
+      /opt/tools/install_internal.sh; \
     else \
       echo "Skipping optional tools installation."; \
     fi

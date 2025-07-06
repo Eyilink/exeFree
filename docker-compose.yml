@@ -17,6 +17,7 @@ services:
     #   - neo4j
     cap_add:
       - NET_ADMIN
+      - SYS_TIME
     devices:
       - /dev/net/tun 
     stdin_open: true

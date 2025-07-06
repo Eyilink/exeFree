@@ -19,7 +19,6 @@
 # # Autosuggestions
 # git clone https://github.com/zsh-users/zsh-autosuggestions.git \
 #   $ZSH_CUSTOM/plugins/zsh-autosuggestions
-
 # echo 'plugins=(git sudo z history zsh-autosuggestions zsh-syntax-highlighting)' >> ~/.zshrc
 sudo apt install zsh-syntax-highlighting
 echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
@@ -47,4 +46,12 @@ RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
 zstyle ':vcs_info:git:*' formats '%b'" >> ~/.zshrc
 
-# source ~/.zshrc
+echo 'export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+
+source ~/.zshrc
+
+# Setting up uv for our global zsh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv self update
