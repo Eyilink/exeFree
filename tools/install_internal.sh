@@ -19,22 +19,23 @@ if [ -d /opt/tools ]; then
         sudo mkdir -p /opt/tools && cd /opt/tools
 fi
 
-# echo "[*] Installing Neo4j..."
-# wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
-# echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.4" | sudo tee /etc/apt/sources.list.d/neo4j.list
-# sudo apt update && sudo apt install -y neo4j
+echo "[*] Installing Neo4j..."
+wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
+echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.4" | sudo tee /etc/apt/sources.list.d/neo4j.list
+sudo apt update && sudo apt install -y neo4j
 
-# cd ~/tools
-# wget https://github.com/SpecterOps/bloodhound-cli/releases/latest/download/bloodhound-cli-linux-amd64.tar.gz
-# tar -xvzf bloodhound-cli-linux-amd64.tar.gz
-# ./bloodhound-cli install
+cd ~/tools
+wget https://github.com/SpecterOps/bloodhound-cli/releases/latest/download/bloodhound-cli-linux-amd64.tar.gz
+tar -xvzf bloodhound-cli-linux-amd64.tar.gz
+./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
 git clone https://github.com/fortra/impacket.git
-cd impacket && uv tool install . 
+cd impacket && uv tool install . --python 3.11
 cd /opt/tools/impacket/examples && sudo wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/refs/heads/main/Python/passthecert.py
 export PATH="$PATH:/opt/tools/impacket/examples"
 sudo chmod +x /opt/tools/impacket/examples/*
+# pip install pycryptodome --break-system-packages
 cd /opt/tools
 
 echo "[*] Installing Netexec (replacement of CrackMapExec)..."
@@ -79,10 +80,10 @@ wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/
 wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimikatz.exe
 wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
 wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net3.5-v2.0.11.zip
-uv tool install pypykatz
-uv tool install lsassy
-uv tool install certipy-ad
-uv tool install coercer
+uv tool install pypykatz --python 3.12
+uv tool install lsassy --python 3.12
+uv tool install certipy-ad --python 3.12
+uv tool install coercer --python 3.12
 
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git
@@ -102,11 +103,10 @@ alias ligolo-proxy="/opt/tools/ligolo-ng/proxy"
 ' >> /home/exefree/.zshrc
 
 echo "[*] Installing metasploit..."
-sudo apt install -y curl gnupg2 build-essential libssl-dev libreadline-dev zlib1g-dev libpq-dev libsqlite3-dev git ruby-full && \
-    sudo git clone https://github.com/rapid7/metasploit-framework /opt/tools/metasploit-framework && \
-    cd /opt/tools/metasploit-framework && \
-    sudo gem install bundler && \
-    sudo bundle install
+
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+   chmod 755 msfinstall && \
+   ./msfinstall
 echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
 alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
 ' >> /home/exefree/.zshrc

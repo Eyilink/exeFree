@@ -46,11 +46,11 @@ RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
 zstyle ':vcs_info:git:*' formats '%b'" >> ~/.zshrc
 
-echo 'export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+# echo 'export PATH="$HOME/.pyenv/bin:$PATH"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 
-source ~/.zshrc
+#source ~/.zshrc
 
 # Setting up uv for our global zsh
 curl -LsSf https://astral.sh/uv/install.sh | sh
