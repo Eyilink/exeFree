@@ -19,15 +19,6 @@ if [ -d /opt/tools ]; then
         sudo mkdir -p /opt/tools && cd /opt/tools
 fi
 
-echo "[*] Installing Neo4j..."
-wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
-echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.4" | sudo tee /etc/apt/sources.list.d/neo4j.list
-sudo apt update && sudo apt install -y neo4j
-
-cd ~/tools
-wget https://github.com/SpecterOps/bloodhound-cli/releases/latest/download/bloodhound-cli-linux-amd64.tar.gz
-tar -xvzf bloodhound-cli-linux-amd64.tar.gz
-./bloodhound-cli install
 
 echo "[*] Installing Impacket..."
 git clone https://github.com/fortra/impacket.git
