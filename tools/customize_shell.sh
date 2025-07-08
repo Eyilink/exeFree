@@ -61,19 +61,24 @@ uv self update
 
 echo '
 vnc_start() {
-    sudo bash -c "
-        export DISPLAY=:0
-        pkill -f '\''Xvfb :0'\'' 2>/dev/null
-        pkill -f '\''x11vnc.*5903'\'' 2>/dev/null
-        Xvfb :0 -screen 0 1280x1024x16 & 
-        fluxbox & 
-        x11vnc -display :0 -rfbport 5903 -nopw -forever & 
-        \$*
-    " -- "\$@"
+   export DISPLAY=:2
+   pkill -f '\''Xvfb :2'\'' 2>/dev/null
+   pkill -f '\''x11vnc.*5905'\'' 2>/dev/null
+   pkill fluxbox 2>/dev/null
+   
+   Xvfb :2 -screen 0 1280x1024x16 &
+   fluxbox &
+   x11vnc -display :2 -rfbport 5905 -nopw -forever &
+   
+   if [ $# -eq 0 ]; then
+       wait
+   else
+       "$@"
+   fi
 }
 
 vnc_stop() {
-    sudo pkill -f '\''Xvfb :0'\''
-    sudo pkill -f '\''x11vnc.*5903'\''
-    sudo pkill fluxbox
+   pkill -f '\''Xvfb :2'\''
+   pkill -f '\''x11vnc.*5905'\''
+   pkill fluxbox
 }' >> /home/exefree/.zshrc
