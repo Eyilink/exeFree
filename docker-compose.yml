@@ -12,7 +12,7 @@ services:
       - "app=exefree"
     ports:
       - 1337:1337
-      - 5900:5900
+      - 5901-5910:5901-5910
     # depends_on:
     #   - neo4j
     cap_add:
