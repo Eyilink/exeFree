@@ -22,6 +22,7 @@ fi
 
 echo "[*] Installing Impacket..."
 git clone https://github.com/fortra/impacket.git
+cp /opt/tools/impacket_setup.py /opt/tools/impacket/setup.py
 cd impacket && uv tool install . --python 3.11
 cd /opt/tools/impacket/examples && sudo wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/refs/heads/main/Python/passthecert.py
 export PATH="$PATH:/opt/tools/impacket/examples"
