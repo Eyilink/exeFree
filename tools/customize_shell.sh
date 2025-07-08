@@ -55,3 +55,25 @@ zstyle ':vcs_info:git:*' formats '%b'" >> ~/.zshrc
 # Setting up uv for our global zsh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 uv self update
+
+
+# VNC display 
+
+echo '
+vnc_start() {
+    sudo bash -c "
+        export DISPLAY=:0
+        pkill -f '\''Xvfb :0'\'' 2>/dev/null
+        pkill -f '\''x11vnc.*5903'\'' 2>/dev/null
+        Xvfb :0 -screen 0 1280x1024x16 & 
+        fluxbox & 
+        x11vnc -display :0 -rfbport 5903 -nopw -forever & 
+        \$*
+    " -- "\$@"
+}
+
+vnc_stop() {
+    sudo pkill -f '\''Xvfb :0'\''
+    sudo pkill -f '\''x11vnc.*5903'\''
+    sudo pkill fluxbox
+}' >> /home/exefree/.zshrc

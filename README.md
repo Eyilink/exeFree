@@ -1,8 +1,6 @@
 ### Next steps
 mettre un alias vnc = Xvfb :1 -screen 0 1280x1024x16 & fluxbox & x11vnc -forever & appli et le nom d'un appli pour la démarrer en vnc et deplus changer le display et forwrad les ports (5900..) ENV DISPLAY :1 
  fix openssl 
- fix md4hash unsupported
- fix gem
  ### Setup
 
 It is important to download the file here : https://drive.google.com/file/d/1rvwmJblSLjkOe3RNJ1ksw9tGO2NHMiQR/view?usp=drive_link
