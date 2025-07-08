@@ -1,20 +1,14 @@
 # install.ps1
-# Write-Host "[*] Building Docker container..." -ForegroundColor Cyan
-# docker-compose build
 
-# if ($LASTEXITCODE -ne 0) {
-#     Write-Error "[-] Docker build failed."
-#     exit 1
+# Pas besoin de X11 mais si jamais
+# Write-Host "[*] Running setup_xserver.ps1..." -ForegroundColor Cyan
+
+# $setupScript = Join-Path $PSScriptRoot "setup_xserver.ps1"
+# if (Test-Path $setupScript) {
+#     & $setupScript
+# } else {
+#     Write-Warning "[!] setup_xserver.ps1 not found. Skipping..."
 # }
-
-Write-Host "[*] Running setup_xserver.ps1..." -ForegroundColor Cyan
-
-$setupScript = Join-Path $PSScriptRoot "setup_xserver.ps1"
-if (Test-Path $setupScript) {
-    & $setupScript
-} else {
-    Write-Warning "[!] setup_xserver.ps1 not found. Skipping..."
-}
 
 # Set alias for current session
 Write-Host "[*] Setting 'exefree' alias for current session..." -ForegroundColor Cyan
