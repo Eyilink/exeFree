@@ -36,7 +36,7 @@ cd NetExec && uv tool install . && cd /opt/tools
 
 echo "[*] Installing Responder..."
 git clone https://github.com/lgandx/Responder.git
-cd Responder && uv pip install -r requirements.txt --system && cd /opt/tools
+cd Responder &&  sudo chown -hR exefree:exefree /usr/local && uv pip install -r requirements.txt --system --break-system-packages && cd /opt/tools
 echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> /home/exefree/.zshrc
 
 
