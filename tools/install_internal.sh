@@ -7,7 +7,7 @@ sudo apt update && sudo apt install -y \
     git python3 python3-pip build-essential libssl-dev libffi-dev \
     python3-dev python3-venv unzip wget curl make gcc \
     smbclient rpcbind snmp ntpdate\
-    ldap-utils net-tools proxychains4
+    ldap-utils net-tools proxychains4 krb5-user
 
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
 sudo chown -hR exefree:exefree /opt/
