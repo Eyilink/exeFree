@@ -38,10 +38,14 @@ echo "[*] Installing Responder..."
 git clone https://github.com/lgandx/Responder.git
 cd Responder &&  sudo chown -hR exefree:exefree /usr/local && uv pip install -r requirements.txt --system --break-system-packages && cd /opt/tools
 echo 'alias responder.py="sudo python3 /opt/tools/Responder/Responder.py"' >> /home/exefree/.zshrc
+cd /opt/tools
 
+echo "[*] Installing bloodhound.py..."
+uv tool install bloodhound-ce
+echo 'alias bloodhound.py="bloodhound-ce-python"' >> /home/exefree/.zshrc
 
 echo "[*] Installing enum4linux-ng..."
-git clone https://github.com/cddmp/enum4linux-ng.git
+git clone https://github.com/cddmp/enum4linux-ng.git && cd enum4linux-ng &&  sudo chown -hR exefree:exefree /usr/local && uv pip install -r requirements.txt --system --break-system-packages
 echo 'alias enum4linux-ng="sudo python3 /opt/tools/enum4linux-ng/enum4linux-ng.py"' >> /home/exefree/.zshrc
 
 
