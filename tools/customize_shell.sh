@@ -82,3 +82,45 @@ vnc_stop() {
    pkill -f '\''x11vnc.*5905'\''
    pkill fluxbox
 }' >> /home/exefree/.zshrc
+
+
+echo 'kerbconf() {
+   if [ -z "$1" ] || [ -z "$2" ]; then
+       echo "Usage: kerbconf <domain> <dc_hostname>"
+       echo "Example: kerbconf voleur.htb DC.voleur.htb"
+       return 1
+   fi
+   
+   local domain="$1"
+   local dc_hostname="$2"
+   local realm=$(echo "$domain" | tr '\''[:lower:]'\'' '\''[:upper:]'\'')
+   
+   echo "=== Kerberos Configuration for $domain ==="
+   echo
+   echo "1. Add this to /etc/krb5.conf:"
+   echo "   sudo tee /etc/krb5.conf << EOF"
+   echo "[libdefaults]"
+   echo "    default_realm = $realm"
+   echo "    dns_lookup_realm = false"
+   echo "    dns_lookup_kdc = false"
+   echo
+   echo "[realms]"
+   echo "    $realm = {"
+   echo "        kdc = $dc_hostname"
+   echo "        admin_server = $dc_hostname"
+   echo "    }"
+   echo
+   echo "[domain_realm]"
+   echo "    .$domain = $realm"
+   echo "    $domain = $realm"
+   echo "EOF"
+   echo
+   echo "2. Don'\''t forget to add to /etc/hosts:"
+   echo "   echo \"<DC_IP> $dc_hostname $domain\" | sudo tee -a /etc/hosts"
+   echo
+   echo "3. Then authenticate:"
+   echo "   kinit <username>@$realm"
+   echo
+   echo "4. Verify ticket:"
+   echo "   klist"
+}' >> ~/.zshrc
