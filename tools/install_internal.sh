@@ -65,6 +65,11 @@ echo "[*] Installing snmpwalk..."
 sudo apt install -y snmp
 
 echo "[*] Downloading linPEAS and winPEAS..."
+if [ -d /opt/scripts ]; then
+        cd /opt/scripts
+    else
+        sudo mkdir -p /opt/scripts && cd /opt/scripts
+fi
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
 wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
@@ -99,7 +104,7 @@ alias ligolo-proxy="/opt/tools/ligolo-ng/proxy"
 ' >> /home/exefree/.zshrc
 
 echo "[*] Installing metasploit..."
-
+cd /opt/tools
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
    chmod 755 msfinstall && \
    ./msfinstall
