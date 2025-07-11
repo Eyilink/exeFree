@@ -68,7 +68,7 @@ echo "[*] Downloading linPEAS and winPEAS..."
 if [ -d /opt/scripts ]; then
         cd /opt/scripts
     else
-        sudo mkdir -p /opt/scripts && cd /opt/scripts
+        mkdir -p /opt/scripts && cd /opt/scripts
 fi
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
@@ -94,13 +94,13 @@ wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_li
 gunzip chisel_1.9.1_linux_amd64.gz
 sudo chmod +x chisel_1.9.1_linux_amd64
 mv chisel_1.9.1_linux_amd64 chisel
-echo 'alias chisel="/opt/tools/chisel"' >> /home/exefree/.zshrc
+echo 'alias chisel="/opt/scripts/chisel"' >> /home/exefree/.zshrc
 
 echo "[*] Installing ligolo-ng..."
 git clone https://github.com/nicocha30/ligolo-ng.git
 cd ligolo-ng/ && /usr/local/go/bin/go build -o agent cmd/agent/main.go && /usr/local/go/bin/go build -o proxy cmd/proxy/main.go && cd /opt/tools
-echo 'alias ligolo-agent="/opt/tools/ligolo-ng/agent"
-alias ligolo-proxy="/opt/tools/ligolo-ng/proxy"
+echo 'alias ligolo-agent="/opt/scripts/ligolo-ng/agent"
+alias ligolo-proxy="/opt/scripts/ligolo-ng/proxy"
 ' >> /home/exefree/.zshrc
 
 echo "[*] Installing metasploit..."
