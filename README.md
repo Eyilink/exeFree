@@ -1,6 +1,9 @@
 ### Next steps
-mettre un alias vnc = Xvfb :1 -screen 0 1280x1024x16 & fluxbox & x11vnc -forever & appli et le nom d'un appli pour la démarrer en vnc et deplus changer le display et forwrad les ports (5900..) ENV DISPLAY :1 
- fix openssl 
+ fix openssl (it is the openssl libs in python that doesnt work for some tools)
+ zsh history persistent
+ one container but different encrypted workspaces
+
+ 
  ### Setup
 
 It is important to download the file here : https://drive.google.com/file/d/1rvwmJblSLjkOe3RNJ1ksw9tGO2NHMiQR/view?usp=drive_link
@@ -14,7 +17,10 @@ After you need to build an image by running `exefree build`, a `-Type` arg which
 You can do `exefree start <workspace>` to start a new workspace, to this you can add a `-Vpn` and `-Workspace` args.
 
 
-Different things to do :
- - one container but different encrypted workspaces
- - optiomize X11
- - see multiple arguments problem in the docker compose override file
+### Zshrc special capacities
+
+The default zshrc provides a sync_time function to synchronize time during internal assessment.
+
+And a vnc_start func to start a GUI app through VNC. It is recommended to use Ultra VNC Viewer client.
+
+A kerbconf func to display an example kerberos conf to use during internal assessment.
