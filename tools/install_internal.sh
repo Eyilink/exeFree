@@ -144,4 +144,11 @@ echo 'sync_time() {
 echo "[*] Installing Evil-Winrm..."
 sudo gem install evil-winrm
 
+echo "[*] Installing John the ripper"
+cd /opt/tools
+git clone https://github.com/openwall/john.git && cd john/src && ./configure && make
+wget https://raw.githubusercontent.com/ivanmrsulja/keepass2john/refs/heads/master/keepass2john.py /opt/tools/john/run/
+export PATH="$PATH:/opt/tools/john/run"
+sudo chmod +x /opt/tools/john/run/*
+
 echo "[*] All tools installed in ~/tools"
