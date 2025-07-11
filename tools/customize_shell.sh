@@ -61,20 +61,37 @@ uv self update
 
 echo '
 vnc_start() {
-   export DISPLAY=:2
-   pkill -f '\''Xvfb :2'\'' 2>/dev/null
-   pkill -f '\''x11vnc.*5905'\'' 2>/dev/null
-   pkill fluxbox 2>/dev/null
-   
-   Xvfb :2 -screen 0 1280x1024x16 &
-   fluxbox &
-   x11vnc -display :2 -rfbport 5905 -nopw -forever &
-   
-   if [ $# -eq 0 ]; then
-       wait
-   else
-       "$@"
-   fi
+    display=":2"
+    port="5905"
+    app_to_run=""
+
+    for arg in "$@"; do
+        case "$arg" in
+            display=*) display="${arg#*=}" ;;
+            port=*) port="${arg#*=}" ;;
+            *) app_to_run="$arg" ;;
+        esac
+    done
+
+    export DISPLAY="${display}"
+
+    pkill -f "Xvfb ${display}" 2>/dev/null
+    pkill -f "x11vnc.*${port}" 2>/dev/null
+    pkill fluxbox 2>/dev/null
+
+    
+
+    if [ -n "$app_to_run" ]; then
+	Xvfb "${display}" -screen 0 1280x1024x16 &
+        fluxbox &
+	x11vnc -display "${display}" -rfbport "${port}" -nopw -forever &
+	"$app_to_run"
+    else
+        echo "No application was specified"
+    fi
+
+    
+    wait
 }
 
 vnc_stop() {
