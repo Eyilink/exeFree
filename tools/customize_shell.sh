@@ -85,7 +85,7 @@ vnc_start() {
 	Xvfb "${display}" -screen 0 1280x1024x16 &
         fluxbox &
 	x11vnc -display "${display}" -rfbport "${port}" -nopw -forever &
-	"$app_to_run"
+	"$app_to_run" > /dev/null 2>&1 &
     else
         echo "No application was specified"
     fi

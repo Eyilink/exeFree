@@ -6,7 +6,7 @@ sudo mkdir -p /opt/SecLists
 cd /opt/SecLists
 
 # Subdomains
-wget https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/DNS/subdomains-top5000.txt
+wget https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/DNS/subdomains-top1million-5000.txt
 wget https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/DNS/subdomains-top20000.txt
 
 # Raft directories
