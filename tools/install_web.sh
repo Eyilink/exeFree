@@ -49,6 +49,8 @@ echo "[*] Installing Firefox extensions (Wappalyzer & PwnFox)..."
 echo "[*] Installing Naabu"
 go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
 
+echo "[*] Installing Feroxbuster"
+curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | bash -s /usr/local/bin
 # echo "[*] Installing Postman..."
 # sudo tar -xzf /opt/resources/postman-linux-x64.tar.gz -C /opt
 # sudo ln -s /opt/Postman/Postman /usr/local/bin/postman
