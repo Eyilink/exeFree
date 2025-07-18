@@ -46,6 +46,8 @@ ln -s /opt/testssl.sh/testssl.sh /usr/local/bin/testssl
 echo "[*] Installing Firefox extensions (Wappalyzer & PwnFox)..."
 # Download and prepare them, manual install unless using Firefox automation
 
+echo "[*] Installing Naabu"
+go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
 
 # echo "[*] Installing Postman..."
 # sudo tar -xzf /opt/resources/postman-linux-x64.tar.gz -C /opt
