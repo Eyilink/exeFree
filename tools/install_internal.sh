@@ -108,8 +108,8 @@ cd /opt/tools
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
    chmod 755 msfinstall && \
    ./msfinstall
-echo 'alias msfconsole="/opt/tools/metasploit-framework/msfconsole"
-alias msfvenom="/opt/tools/metasploit-framework/msfvenom"
+echo 'alias msfconsole="/opt/metasploit-framework/bin/msfconsole"
+alias msfvenom="/opt/metasploit-framework/bin/msfvenom"
 ' >> /home/exefree/.zshrc
 
 echo "[*] Installing faketime"
