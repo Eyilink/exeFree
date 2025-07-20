@@ -11,6 +11,84 @@ $labelFilter = "app=exefree"
 $homeDir = $env:USERPROFILE
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
+function Start-ClipboardSync {
+    param([string]$WorkspaceParam = "")
+    
+    # Stop any existing job
+    Stop-ClipboardSync
+    
+    Write-Output "[*] Starting clipboard sync as background job for workspace: '$WorkspaceParam'..."
+    
+    # Define the script block explicitly with proper scoping
+    $scriptBlock = {
+        param([string]$WorkspaceParam)
+        
+        function Monitor-Clipboard {
+            param([string]$WorkspaceParam)
+            
+            $lastClipboard = ""
+            if ($WorkspaceParam) {
+                $clipboardFile = Join-Path $env:USERPROFILE "workspace" $WorkspaceParam ".clipboard"
+                $clipboardDir = Join-Path $env:USERPROFILE "workspace" $WorkspaceParam
+            } else {
+                $clipboardFile = Join-Path $env:USERPROFILE "workspace" ".clipboard"
+                $clipboardDir = Join-Path $env:USERPROFILE "workspace"
+            }
+
+            if (!(Test-Path $clipboardDir)) {
+                New-Item -ItemType Directory -Force -Path $clipboardDir | Out-Null
+            }
+
+            # Write to information stream which can be captured
+            Write-Information "[*] Clipboard monitor started for: $clipboardFile"
+            
+            Add-Type -AssemblyName System.Windows.Forms
+            
+            while ($true) {
+                try {
+                    # Use Windows Forms clipboard for better job compatibility
+                    if ([System.Windows.Forms.Clipboard]::ContainsText()) {
+                        $currentClipboard = [System.Windows.Forms.Clipboard]::GetText()
+                        
+                        if ($currentClipboard -and $currentClipboard -ne $lastClipboard) {
+                            $currentClipboard | Out-File -FilePath $clipboardFile -Encoding UTF8 -NoNewline
+                            Write-Output "[CLIPBOARD] Updated: $(Get-Date -Format 'HH:mm:ss')"
+                            $lastClipboard = $currentClipboard
+                        }
+                    }
+                }
+                catch {
+                    # Ignore errors
+                }
+                Start-Sleep -Milliseconds 500
+            }
+        }
+        
+        # Call the function within the job
+        Monitor-Clipboard -WorkspaceParam $WorkspaceParam
+    }
+    
+    # Start the job with the script block
+    $job = Start-Job -Name "ClipboardSync" -ScriptBlock $scriptBlock -ArgumentList $WorkspaceParam
+    
+    # Wait and check job status
+    Start-Sleep -Milliseconds 500
+    $jobState = Get-Job -Name "ClipboardSync" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty State
+    Write-Output "[*] Clipboard sync job state: $jobState"
+    
+    return $job
+}
+
+
+function Stop-ClipboardSync {
+    $job = Get-Job -Name "ClipboardSync" -ErrorAction SilentlyContinue
+    if ($job) {
+        Stop-Job $job
+        Remove-Job $job
+        Write-Output "[*] Stopped clipboard sync."
+    }
+}
+
 function Wait-ForContainer {
     Write-Output "[*] Waiting for container with label '$labelFilter'..."
     for ($i = 0; $i -lt 10; $i++) {
@@ -134,6 +212,7 @@ services:
 
         Wait-ForContainer
         $containerName = docker ps --filter "label=$labelFilter" --format '{{.Names}}'
+        Start-ClipboardSync -WorkspaceParam $Workspace
         docker exec -it $containerName zsh
     }
     "shell" {
@@ -154,6 +233,7 @@ services:
         }
     }
     "stop" {
+        Stop-ClipboardSync
         if ( Test-Path "$ScriptDir\docker-compose.override.yml" -PathType Leaf) {
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" stop
             Remove-Item "$ScriptDir\docker-compose.override.yml" -ErrorAction SilentlyContinue
@@ -161,6 +241,7 @@ services:
         docker compose -f "$ScriptDir\docker-compose.yml" stop
     }
     "remove" {
+        Stop-ClipboardSync
         if ( Test-Path "$ScriptDir\docker-compose.override.yml" -PathType Leaf) {
             docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" down
             Remove-Item "$ScriptDir\docker-compose.override.yml" -ErrorAction SilentlyContinue
