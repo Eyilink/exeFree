@@ -16,6 +16,7 @@ services:
       - 5901-5910:5901-5910
     # depends_on:
     #   - neo4j
+    privileged: true
     cap_add:
       - NET_ADMIN
       - SYS_TIME
