@@ -89,6 +89,7 @@ vnc_start() {
     else
         echo "No application was specified"
     fi
+    export DISPLAY=host.docker.internal:0.0
 }
 
 vnc_stop() {
