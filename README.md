@@ -2,6 +2,7 @@
  fix openssl (it is the openssl libs in python that doesnt work for some tools)
  zsh history persistent
  one container but different encrypted workspaces
+resize du vnc aussi by adding an env var RESOLUTION and passing it to compose by using the wrapper to retrieve it via [System.Windows.Forms.Screen]::AllScreens | ForEach-Object { $_.Bounds.X }
 
  
  ### Setup
@@ -16,6 +17,7 @@ After you need to build an image by running `exefree build`, a `-Type` arg which
 
 You can do `exefree start <workspace>` to start a new workspace, to this you can add a `-Vpn` and `-Workspace` args.
 
+I would advise to use the x11 server for lightweight process like xfreerdp and to use the VNC server for burp, firefox, etc.
 
 ### Zshrc special capacities
 

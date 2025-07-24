@@ -17,68 +17,66 @@ function Start-ClipboardSync {
     # Stop any existing job
     Stop-ClipboardSync
     
-    Write-Output "[*] Starting clipboard sync as background job for workspace: '$WorkspaceParam'..."
-    
-    # Define the script block explicitly with proper scoping
-    $scriptBlock = {
-        param([string]$WorkspaceParam)
-        
+    Write-Output "[*] Starting clipboard sync for workspace: '$WorkspaceParam'..."
+
+    # Define the job script block
+    $jobScript = {
+        param($WorkspaceParam)
+
         function Monitor-Clipboard {
-            param([string]$WorkspaceParam)
-            
-            $lastClipboard = ""
-            if ($WorkspaceParam) {
-                $clipboardFile = Join-Path $env:USERPROFILE "workspace" $WorkspaceParam ".clipboard"
-                $clipboardDir = Join-Path $env:USERPROFILE "workspace" $WorkspaceParam
+            param($WorkspaceParam)
+
+            # Safely build paths
+            $workspaceRoot = if ($WorkspaceParam) {
+                Join-Path -Path $env:USERPROFILE -ChildPath "workspace" -AdditionalChildPath $WorkspaceParam
             } else {
-                $clipboardFile = Join-Path $env:USERPROFILE "workspace" ".clipboard"
-                $clipboardDir = Join-Path $env:USERPROFILE "workspace"
+                Join-Path -Path $env:USERPROFILE -ChildPath "workspace"
             }
 
-            if (!(Test-Path $clipboardDir)) {
-                New-Item -ItemType Directory -Force -Path $clipboardDir | Out-Null
+            $clipboardFile = Join-Path -Path $workspaceRoot -ChildPath ".clipboard"
+
+            # Ensure directory exists
+            if (-not (Test-Path -Path $workspaceRoot -ErrorAction SilentlyContinue)) {
+                New-Item -ItemType Directory -Path $workspaceRoot -Force | Out-Null
             }
 
-            # Write to information stream which can be captured
-            Write-Information "[*] Clipboard monitor started for: $clipboardFile"
-            
-            Add-Type -AssemblyName System.Windows.Forms
-            
+            Write-Output "[*] Monitoring clipboard to: $clipboardFile"
+            $lastClip = ""
+
+            # Load Windows.Forms for clipboard access (works better in jobs)
+            Add-Type -AssemblyName System.Windows.Forms -ErrorAction Stop
+
             while ($true) {
                 try {
-                    # Use Windows Forms clipboard for better job compatibility
                     if ([System.Windows.Forms.Clipboard]::ContainsText()) {
-                        $currentClipboard = [System.Windows.Forms.Clipboard]::GetText()
-                        
-                        if ($currentClipboard -and $currentClipboard -ne $lastClipboard) {
-                            $currentClipboard | Out-File -FilePath $clipboardFile -Encoding UTF8 -NoNewline
-                            Write-Output "[CLIPBOARD] Updated: $(Get-Date -Format 'HH:mm:ss')"
-                            $lastClipboard = $currentClipboard
+                        $currentClip = [System.Windows.Forms.Clipboard]::GetText()
+                        if ($currentClip -ne $lastClip) {
+                            $currentClip | Out-File -FilePath $clipboardFile -Encoding utf8 -Force
+                            Write-Output "[$(Get-Date -Format 'HH:mm:ss')] Clipboard updated."
+                            $lastClip = $currentClip
                         }
                     }
-                }
-                catch {
-                    # Ignore errors
+                } catch {
+                    Write-Output "[ERROR] $_"
                 }
                 Start-Sleep -Milliseconds 500
             }
         }
-        
-        # Call the function within the job
+
+        # Start monitoring
         Monitor-Clipboard -WorkspaceParam $WorkspaceParam
     }
-    
-    # Start the job with the script block
-    $job = Start-Job -Name "ClipboardSync" -ScriptBlock $scriptBlock -ArgumentList $WorkspaceParam
-    
-    # Wait and check job status
+
+    # Start the job
+    $job = Start-Job -Name "ClipboardSync" -ScriptBlock $jobScript -ArgumentList $WorkspaceParam
+
+    # Verify job started
     Start-Sleep -Milliseconds 500
-    $jobState = Get-Job -Name "ClipboardSync" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty State
-    Write-Output "[*] Clipboard sync job state: $jobState"
-    
+    $jobState = (Get-Job -Name "ClipboardSync" -ErrorAction SilentlyContinue).State
+    Write-Output "[*] Job state: $jobState"
+
     return $job
 }
-
 
 function Stop-ClipboardSync {
     $job = Get-Job -Name "ClipboardSync" -ErrorAction SilentlyContinue
@@ -212,7 +210,7 @@ services:
 
         Wait-ForContainer
         $containerName = docker ps --filter "label=$labelFilter" --format '{{.Names}}'
-        Start-ClipboardSync -WorkspaceParam $Workspace
+        # Start-ClipboardSync -WorkspaceParam $Workspace
         docker exec -it $containerName zsh
     }
     "shell" {
