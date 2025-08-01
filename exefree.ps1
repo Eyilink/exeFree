@@ -106,6 +106,18 @@ function Get-RunningContainer {
     return $runningContainer
 }
 
+function Get-AllExefreeContainers {
+    param([bool]$RunningOnly = $false)
+    
+    if ($RunningOnly) {
+        $containers = docker ps --filter "name=$containerName" --format '{{.Names}}\t{{.Status}}\t{{.Ports}}'
+    } else {
+        $containers = docker ps -a --filter "name=$containerName" --format '{{.Names}}\t{{.Status}}\t{{.Ports}}'
+    }
+    
+    return $containers
+}
+
 function Create-OverrideFile {
     param([string]$Content)
     
@@ -275,6 +287,28 @@ services:
             }
         } else {
             Write-Output "  Workspace directory not found: $workspacePath"
+        }
+
+        Write-Output ""
+        Write-Output "Exefree containers (all):"
+        $allContainers = Get-AllExefreeContainers -RunningOnly $false
+        if ($allContainers) {
+            Write-Output "NAME`t`t`tSTATUS`t`t`tPORTS"
+            Write-Output "----`t`t`t------`t`t`t-----"
+            $allContainers | ForEach-Object { Write-Output $_ }
+        } else {
+            Write-Output "  No exefree containers found."
+        }
+        
+        Write-Output ""
+        Write-Output "Running exefree containers:"
+        $runningContainers = Get-AllExefreeContainers -RunningOnly $true
+        if ($runningContainers) {
+            Write-Output "NAME`t`t`tSTATUS`t`t`tPORTS"
+            Write-Output "----`t`t`t------`t`t`t-----"
+            $runningContainers | ForEach-Object { Write-Output $_ }
+        } else {
+            Write-Output "  No running exefree containers found."
         }
     }
     Default {
