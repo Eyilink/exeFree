@@ -7,7 +7,7 @@ sudo apt update && sudo apt install -y \
     git python3 python3-pip build-essential libssl-dev libffi-dev \
     python3-dev python3-venv unzip wget curl make gcc \
     smbclient rpcbind snmp ntpdate\
-    ldap-utils net-tools proxychains4 krb5-user nfs-common freerdp2-x11
+    ldap-utils net-tools proxychains4 krb5-user nfs-common freerdp2-x11 dh-autoreconf
 
 # sudo echo "mibs :" > /etc/snmp/snmp.conf
 sudo chown -hR exefree:exefree /opt/
@@ -72,6 +72,7 @@ if [ -d /opt/scripts ]; then
 fi
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
+wget https://github.com/peass-ng/PEASS-ng/releases/download/20250801-03e73bf3/winPEASany.exe
 wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
 wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1
 wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll
@@ -85,6 +86,7 @@ uv tool install pypykatz --python 3.12
 uv tool install lsassy --python 3.12
 uv tool install certipy-ad --python 3.12
 uv tool install coercer --python 3.12
+uv tool install updog
 
 echo "[*] Installing PrivescCheck (Windows)..."
 git clone https://github.com/itm4n/PrivescCheck.git
@@ -150,5 +152,8 @@ git clone https://github.com/openwall/john.git && cd john/src && ./configure && 
 wget -O /opt/tools/john/run/keepass2john.py https://raw.githubusercontent.com/ivanmrsulja/keepass2john/refs/heads/master/keepass2john.py
 export PATH="$PATH:/opt/tools/john/run"
 sudo chmod +x /opt/tools/john/run/*
+
+echo "Installing rlwrap"
+git clone https://github.com/hanslub42/rlwrap.git && cd rlwrap/ && autoreconf --install && ./configure && make && sudo make install
 
 echo "[*] All tools installed in ~/tools"
