@@ -86,6 +86,7 @@ RUN /opt/tools/install_nvim.sh
 RUN /opt/tools/install_fzf.sh
 RUN /opt/tools/install_ssh_agent.sh
 RUN /opt/tools/install_reverse.sh
+#RUN /opt/tools/install_osint.sh
 RUN sudo /opt/tools/install_web.sh
 
 RUN if [ "$PROFILE" = "internal" ]; then \

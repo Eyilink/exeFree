@@ -139,3 +139,10 @@ echo 'kerbconf() {
    echo "4. Verify ticket:"
    echo "   klist"
 }' >> ~/.zshrc
+
+
+echo 'HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=20000
+setopt INC_APPEND_HISTORY 
+setopt HIST_IGNORE_DUPS' >> ~/.zshrc
