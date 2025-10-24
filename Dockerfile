@@ -92,7 +92,7 @@ RUN sudo /opt/tools/install_web.sh
 RUN if [ "$PROFILE" = "internal" ]; then \
       /opt/tools/install_internal.sh; \
     elif [ "$PROFILE" = "cloud" ]; then \
-      /opt/tools/install_cloud.sh
+      /opt/tools/install_cloud.sh; \
     else \
       echo "Skipping optional tools installation."; \
     fi
