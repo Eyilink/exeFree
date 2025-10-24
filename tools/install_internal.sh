@@ -77,7 +77,7 @@ wget https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe
 wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1
 wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll
 wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.212/Snaffler.exe
-wget https://raw.githubusercontent.com/itm4n/PrivescCheck/refs/heads/master/PrivescCheck.ps1
+#wget https://raw.githubusercontent.com/itm4n/PrivescCheck/refs/heads/master/PrivescCheck.ps1
 wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/master/Rubeus.exe
 wget https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/Win32/mimikatz.exe
 wget https://github.com/SpecterOps/SharpHound/releases/download/v2.6.7/SharpHound_v2.6.7_windows_x86.zip
