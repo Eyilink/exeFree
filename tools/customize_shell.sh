@@ -44,7 +44,8 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
-zstyle ':vcs_info:git:*' formats '%b'" >> ~/.zshrc
+zstyle ':vcs_info:git:*' formats '%b'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=red'" >> ~/.zshrc
 
 # echo 'export PATH="$HOME/.pyenv/bin:$PATH"
 # eval "$(pyenv init --path)"
