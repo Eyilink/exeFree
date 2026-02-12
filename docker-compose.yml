@@ -12,8 +12,11 @@ services:
     labels:
       - "app=exefree"
     ports:
-      - 1337:1337
-      - 5901-5910:5901-5910
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80"
+      - "1337:1337"
+      - "5901-5910:5901-5910"
     # depends_on:
     #   - neo4j
     privileged: true
@@ -26,6 +29,8 @@ services:
     stdin_open: true
     shm_size: 2g
     tty: true
+    security_opt:
+      - seccomp:unconfined
 
 #   neo4j:
 #     image: neo4j:4.4-community
