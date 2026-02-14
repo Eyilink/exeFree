@@ -31,8 +31,5 @@ git clone https://github.com/Eyilink/nvim-easy-conf.git "$CONFIG_DIR"
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-mkdir -p ~/.local/share/nvim/site/pack/plugins/start
-git clone https://github.com/mg979/vim-visual-multi \
-    ~/.local/share/nvim/site/pack/plugins/start/vim-visual-multi
     
 echo "Neovim installation and configuration completed!"
