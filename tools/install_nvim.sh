@@ -31,5 +31,5 @@ git clone https://github.com/Eyilink/nvim-easy-conf.git "$CONFIG_DIR"
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-    
+sudo apt install ripgrep # Pour virer l erreur sur le finder de files
 echo "Neovim installation and configuration completed!"
