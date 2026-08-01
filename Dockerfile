@@ -86,16 +86,20 @@ RUN /opt/tools/install_nvim.sh
 RUN /opt/tools/install_fzf.sh
 RUN /opt/tools/install_ssh_agent.sh
 RUN /opt/tools/install_reverse.sh
-#RUN /opt/tools/install_osint.sh
+
 RUN sudo /opt/tools/install_web.sh
 
 RUN if [ "$PROFILE" = "internal" ]; then \
       /opt/tools/install_internal.sh; \
     elif [ "$PROFILE" = "cloud" ]; then \
       /opt/tools/install_cloud.sh; \
+    elif [ "$PROFILE" = "osint" ]; then \
+      /opt/tools/install_osint.sh; \
     else \
       echo "Skipping optional tools installation."; \
     fi
+
+RUN /opt/tools/install_opencode.sh
 
 # Run the Neovim install script as root (or switch to non-root user later)
 COPY entrypoint.sh /entrypoint.sh

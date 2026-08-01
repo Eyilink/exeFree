@@ -26,3 +26,7 @@ The default zshrc provides a sync_time function to synchronize time during inter
 And a vnc_start func to start a GUI app through VNC. It is recommended to use Ultra VNC Viewer client.
 
 A kerbconf func to display an example kerberos conf to use during internal assessment.
+
+### OpenCode
+
+To use OpenCode, login to Gemini using `opencode auth login` and paste your API key. And then you can just run OpenCode inline with `opencode run "blablabla"`.
