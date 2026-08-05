@@ -147,3 +147,6 @@ HISTSIZE=10000
 SAVEHIST=20000
 setopt INC_APPEND_HISTORY 
 setopt HIST_IGNORE_DUPS' >> ~/.zshrc
+
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
