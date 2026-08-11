@@ -1,4 +1,14 @@
 ### Next steps
+Faire un exefree update pour update l image via un git pull
+Changer exefree build -type blabla en exefree build blabla
+
+
+
+
+
+
+
+
  fix openssl (it is the openssl libs in python that doesnt work for some tools)
  zsh history persistent
  one container but different encrypted workspaces
