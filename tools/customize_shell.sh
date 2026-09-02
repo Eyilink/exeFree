@@ -155,3 +155,5 @@ echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
 
 echo 'set -g status off' >> ~/.tmux.conf
 echo 'set -g xterm-keys on' >> ~/.tmux.conf
+echo 'set -g default-terminal "tmux-256color"' >> ~/.tmux.conf
+echo 'set -as terminal-overrides ',*:Tc'' >> ~/.tmux.conf
