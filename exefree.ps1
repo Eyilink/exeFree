@@ -148,7 +148,7 @@ switch ($Command) {
         if ($existingContainer) {
             Write-Output "[*] Container '$existingContainer' already exists. Starting and connecting..."
             docker start $existingContainer | Out-Null
-            docker exec -it $existingContainer zsh
+            docker exec -it $existingContainer tmux attach -t main
             return
         }
         
@@ -223,7 +223,7 @@ services:
         Wait-ForContainer
         $containerName = docker ps --filter "label=$labelFilter" --format '{{.Names}}'
         # Start-ClipboardSync -WorkspaceParam $Workspace
-        docker exec -it $containerName zsh
+        docker exec -it $containerName tmux attach -t main
     }
     "shell" {
         Write-Output "[*] Connecting to existing container..."

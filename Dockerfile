@@ -81,6 +81,7 @@ ENV PATH="$PATH:/home/exefree/.local/bin"
 RUN sudo chmod +x /opt/tools/*.sh
 # RUN sudo /opt/tools/install.sh
 RUN sudo dos2unix /opt/tools/*.sh
+RUN git config --global http.version HTTP/1.1
 RUN /opt/tools/customize_shell.sh
 RUN /opt/tools/install_nvim.sh
 RUN /opt/tools/install_fzf.sh

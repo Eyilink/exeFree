@@ -29,6 +29,7 @@ chmod +x /usr/local/bin/burp
 
 
 echo "[*] Installing sqlmap..."
+git config --global http.version HTTP/1.1
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /opt/sqlmap
 ln -s /opt/sqlmap/sqlmap.py /usr/local/bin/sqlmap
 

@@ -12,6 +12,7 @@
 
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+
 # # Syntax highlighting
 # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 #   $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
@@ -148,5 +149,7 @@ SAVEHIST=20000
 setopt INC_APPEND_HISTORY 
 setopt HIST_IGNORE_DUPS' >> ~/.zshrc
 
-bindkey "^[[1;5D" backward-word
-bindkey "^[[1;5C" forward-word
+# Pour Zsh
+echo 'bindkey "^[[1;5D" backward-word' >> ~/.zshrc
+echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
+

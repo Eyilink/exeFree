@@ -2,9 +2,9 @@
 #!/bin/bash
 set -e
 
-echo "Configuring git"
-git config --global user.name "exefree"
-git config --global user.email "exefree@outlook.com"
+# echo "Configuring git"
+# git config --global user.name "exefree"
+# git config --global user.email "exefree@outlook.com"
 # Enable detailed logging
 echo "[DEBUG] Script started with arguments: $*"
 echo "[DEBUG] Number of arguments: $#"
@@ -94,27 +94,29 @@ echo "[DEBUG] Script execution completed"
 #   echo "[*] Using workspace $WORKSPACE"
 #   cd "$WORKSPACE"
 # fi
-cd "/workspace"
+#cd "/workspace"
+
 sudo chown -R exefree:exefree /var/log/supervisor
-sudo /usr/bin/cat -n
 
-authenticate_user() {
-    echo "Enter your system username:"
-    read -r USERNAME
-    echo "Enter your system password:"
-    read -rs PASSWORD
 
-    # Try switching user with the provided credentials (non-interactive)
-    if echo "$PASSWORD" | su -c "exit" "$USERNAME" > /dev/null 2>&1; then
-        echo "Authentication successful."
-    else
-        echo "Authentication failed!"
-        exit 1
-    fi
-}
-/opt/tools/clipboard-sync.sh &
-echo "Encrypted workspace requires authentication"
-authenticate_user
+
+# authenticate_user() {
+#     echo "Enter your system username:"
+#     read -r USERNAME
+#     echo "Enter your system password:"
+#     read -rs PASSWORD
+
+#     # Try switching user with the provided credentials (non-interactive)
+#     if echo "$PASSWORD" | su -c "exit" "$USERNAME" > /dev/null 2>&1; then
+#         echo "Authentication successful."
+#     else
+#         echo "Authentication failed!"
+#         exit 1
+#     fi
+# }
+# /opt/tools/clipboard-sync.sh &
+# echo "Encrypted workspace requires authentication"
+# authenticate_user
 
 
 # echo "Setting up encrypted workspace with gocryptfs..."
@@ -138,5 +140,8 @@ authenticate_user
 
 # trap cleanup SIGTERM SIGINT
 
-echo "Encrypted workspace ready!"
-exec "$@"
+echo "[DEBUG] Environment ready!"
+
+tmux new-session -d -s main
+
+#exec sleep infinity

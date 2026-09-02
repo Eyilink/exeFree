@@ -5,6 +5,7 @@ set -e
 # Update package lists and install neovim
 echo "Installing Neovim and dependencies..."
 sudo apt install xclip
+
 # Clone and build Neovim
 git clone https://github.com/neovim/neovim.git /tmp/nvim
 cd /tmp/nvim
