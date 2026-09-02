@@ -142,6 +142,8 @@ sudo chown -R exefree:exefree /var/log/supervisor
 
 echo "[DEBUG] Environment ready!"
 
+#tmux source-file ~/.tmux.conf
+
 tmux new-session -d -s main
 
-#exec sleep infinity
+exec sleep infinity
