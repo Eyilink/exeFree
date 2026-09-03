@@ -150,8 +150,8 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS' >> ~/.zshrc
 
 # Pour Zsh
-echo 'bindkey "^[[1;5D" backward-word' >> ~/.zshrc
-echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
+#echo 'bindkey "^[[1;5D" backward-word' >> ~/.zshrc
+#echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
 
 echo 'set -g status off' >> ~/.tmux.conf
 echo 'set -g xterm-keys on' >> ~/.tmux.conf
@@ -162,6 +162,10 @@ echo 'bind-key -n C-M-Up select-pane -U' >> ~/.tmux.conf
 echo 'bind-key -n C-M-Down select-pane -D' >> ~/.tmux.conf
 echo 'bind-key -n C-M-Left select-pane -L' >> ~/.tmux.conf
 echo 'bind-key -n C-M-Right select-pane -R' >> ~/.tmux.conf
+
+echo 'bind-key -n C-Left send-keys C-left' >> ~/.tmux.conf
+echo 'bind-key -n C-Right send-keys C-right' >> ~/.tmux.conf
+
 
 
 
