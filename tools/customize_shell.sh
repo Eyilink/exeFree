@@ -158,8 +158,10 @@ echo 'set -g xterm-keys on' >> ~/.tmux.conf
 echo 'set -g default-terminal "tmux-256color"' >> ~/.tmux.conf
 echo 'set -as terminal-overrides '"'"'*:Tc'"'" >> ~/.tmux.conf
 echo 'set -g mouse on' >> ~/.tmux.conf
-echo 'bind-key -n C-Up select-pane -U' >> ~/.tmux.conf
-echo 'bind-key -n C-Down select-pane -D' >> ~/.tmux.conf
-echo 'bind-key -n C-Left select-pane -L' >> ~/.tmux.conf
-echo 'bind-key -n C-Right select-pane -R' >> ~/.tmux.conf
+echo 'bind-key -n C-M-Up select-pane -U' >> ~/.tmux.conf
+echo 'bind-key -n C-M-Down select-pane -D' >> ~/.tmux.conf
+echo 'bind-key -n C-M-Left select-pane -L' >> ~/.tmux.conf
+echo 'bind-key -n C-M-Right select-pane -R' >> ~/.tmux.conf
+
+
 
