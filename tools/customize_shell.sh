@@ -168,8 +168,10 @@ echo 'bind-key -n C-Right send-keys C-right' >> ~/.tmux.conf
 
 
 echo 'set -g history-limit 100000' >> ~/.tmux.conf
-echo 'bind-key -n M-Up copy-mode -u  ' >> ~/.tmux.conf
-echo 'bind-key -n M-Down copy-mode -d' >> ~/.tmux.conf
+echo 'bind-key -n M-Up send-keys "C-u" \; copy-mode' >> ~/.tmux.conf
+echo 'bind-key -n M-Down send-keys "C-d" \; copy-mode' >> ~/.tmux.conf
+
+
 
 
 
