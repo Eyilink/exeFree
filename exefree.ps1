@@ -232,7 +232,7 @@ services:
         
         if ($runningContainer) {
             Write-Output "[*] Found running container: $runningContainer"
-            docker exec -it $runningContainer zsh
+            docker exec -it $runningContainer tmux attach -t main
         } else {
             Write-Output "[!] No running container found. Use 'start' command first."
             if ($Workspace) {
@@ -278,6 +278,13 @@ services:
     "build" {
         docker compose -f "$ScriptDir\docker-compose.yml" build --build-arg PROFILE="$Type"
     }
+    "pull" {
+        git -C "$ScriptDir" pull
+    }
+    "update" {
+        git -C "$ScriptDir" pull
+        docker compose -f "$ScriptDir\docker-compose.yml" build --build-arg PROFILE="$Type"
+    }
     "info" {
         Write-Output "Exefree workspaces available :"
         $workspacePath = "$homeDir/workspace/"
@@ -319,6 +326,8 @@ services:
         Write-Output "  stop      - Stop container"
         Write-Output "  remove    - Remove container"
         Write-Output "  build     - Build container"
+        Write-Output "  pull      - Pull last project modifications"
+        Write-Output "  update    - Update the current image (pull and build)"
         Write-Output "  info      - Show workspace info"
         Write-Output ""
         Write-Output "Examples:"
