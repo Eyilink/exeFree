@@ -150,8 +150,8 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS' >> ~/.zshrc
 
 # Pour Zsh
-#echo 'bindkey "^[[1;5D" backward-word' >> ~/.zshrc
-#echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
+echo 'bindkey "^[[1;5D" backward-word' >> ~/.zshrc
+echo 'bindkey "^[[1;5C" forward-word' >> ~/.zshrc
 
 echo 'set -g status off' >> ~/.tmux.conf
 echo 'set -g xterm-keys on' >> ~/.tmux.conf
