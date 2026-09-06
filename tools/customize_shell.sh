@@ -171,6 +171,9 @@ echo 'set -g history-limit 100000' >> ~/.tmux.conf
 echo 'bind-key -n M-Up send-keys "C-u" \; copy-mode' >> ~/.tmux.conf
 echo 'bind-key -n M-Down send-keys "C-d" \; copy-mode' >> ~/.tmux.conf
 
+echo 'bind-key -n M-v split-window -h' >> ~/.tmux.conf
+echo 'bind-key -n M-h split-window -v' >> ~/.tmux.conf
+
 
 
 
