@@ -148,7 +148,24 @@ switch ($Command) {
         if ($existingContainer) {
             Write-Output "[*] Container '$existingContainer' already exists. Starting and connecting..."
             docker start $existingContainer | Out-Null
-            docker exec -it $existingContainer tmux attach -t main
+
+            $tmuxSessions = docker exec -it $existingContainer tmux list-sessions
+
+            if ($tmuxSessions -match "main:") {
+                $sessionCount = ($tmuxSessions | Where-Object { $_ -match "^.+:" }).Count
+
+                if ($sessionCount -eq 1) {
+                    docker exec -it $existingContainer tmux attach -t main
+                } else {
+                    Write-Host "Multiple tmux sessions exist:"
+                    $tmuxSessions
+                }
+            } else {
+                docker exec -it $existingContainer tmux new-session -s main
+            }
+
+
+           
             return
         }
         
