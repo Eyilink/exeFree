@@ -240,7 +240,7 @@ services:
         Wait-ForContainer
         $containerName = docker ps --filter "label=$labelFilter" --format '{{.Names}}'
         # Start-ClipboardSync -WorkspaceParam $Workspace
-        docker exec -it $containerName tmux new-session -s main
+        docker exec -it $containerName tmux attach -t main
     }
     "shell" {
         Write-Output "[*] Connecting to existing container..."
