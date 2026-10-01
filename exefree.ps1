@@ -142,7 +142,8 @@ switch ($Command) {
         Write-Output "[*] Checking for existing container..."
         
         # Check if container already exists (running or stopped)
-        $targetContainerName = "$containerName$Workspace"
+        $workspaceSanitized = $Workspace -replace '[^a-zA-Z0-9_.\-]', '_'
+        $targetContainerName = "$containerName$workspaceSanitized"
         $existingContainer = docker ps -a --filter "name=$targetContainerName" --format '{{.Names}}'
         
         if ($existingContainer) {
@@ -207,21 +208,32 @@ services:
             $needsOverride = $true
         }
         elseif ($Workspace) {
-            $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
-            if(!(Test-Path $workspacePath)) {
-                New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
-            }
-            $override = @"
+    # Detect absolute Windows path (C:\... or any drive letter)
+    if ($Workspace -match '^[A-Za-z]:[/\\]') {
+        $workspacePath = $Workspace.Replace('\', '/')
+        # Don't try to create it if it already exists; warn if missing
+        if (!(Test-Path $Workspace)) {
+            Write-Warning "Path '$Workspace' does not exist. It will still be mounted."
+        }
+    } else {
+        $workspacePath = "$homeDir/workspace/$Workspace".Replace('\', '/')
+        if (!(Test-Path $workspacePath)) {
+            New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
+        }
+    }
+
+    $workspaceSanitized = $Workspace -replace '[^a-zA-Z0-9_.\-]', '_'
+    $override = @"
 version: '3'
 services:
   ${containerName}:
-    container_name: $containerName$Workspace
+    container_name: $containerName$workspaceSanitized
     volumes:
       - "${workspacePath}:/workspace"
     entrypoint: ["/entrypoint.sh"]
 "@
-            $needsOverride = $true
-        }
+    $needsOverride = $true
+}
 
         if ($needsOverride) {
             $configChanged = Create-OverrideFile -Content $override
