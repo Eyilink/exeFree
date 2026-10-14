@@ -137,11 +137,34 @@ function Create-OverrideFile {
     return $true  # File was created/changed
 }
 
+# Helper: resolve workspace path and sanitized container name suffix
+function Resolve-WorkspaceInfo {
+    param([string]$WorkspaceParam)
+
+    $sanitized = $WorkspaceParam -replace '[^a-zA-Z0-9_.\-]', '_'
+
+    if ($WorkspaceParam -match '^[A-Za-z]:[/\\]') {
+        # Absolute Windows path — use as-is
+        $resolved = $WorkspaceParam.Replace('\', '/')
+        if (!(Test-Path $WorkspaceParam)) {
+            Write-Warning "Path '$WorkspaceParam' does not exist. It will still be mounted."
+        }
+    } else {
+        # Relative name — nest under ~/workspace/
+        $resolved = "$env:USERPROFILE/workspace/$WorkspaceParam".Replace('\', '/')
+        if (!(Test-Path $resolved)) {
+            New-Item -ItemType Directory -Path $resolved -Force | Out-Null
+        }
+    }
+
+    return @{ Path = $resolved; Sanitized = $sanitized }
+}
+
 switch ($Command) {
     "start" {
         Write-Output "[*] Checking for existing container..."
         
-        # Check if container already exists (running or stopped)
+        # Sanitize workspace for container name lookup
         $workspaceSanitized = $Workspace -replace '[^a-zA-Z0-9_.\-]', '_'
         $targetContainerName = "$containerName$workspaceSanitized"
         $existingContainer = docker ps -a --filter "name=$targetContainerName" --format '{{.Names}}'
@@ -150,7 +173,11 @@ switch ($Command) {
             Write-Output "[*] Container '$existingContainer' already exists. Starting and connecting..."
             docker start $existingContainer | Out-Null
 
-            $tmuxSessions = docker exec -it $existingContainer tmux list-sessions
+            # Wait for tmux to initialise inside the container
+            Write-Output "[*] Waiting for tmux to initialise..."
+            Start-Sleep -Seconds 2
+
+            $tmuxSessions = docker exec -it $existingContainer tmux list-sessions 2>&1
 
             if ($tmuxSessions -match "main:") {
                 $sessionCount = ($tmuxSessions | Where-Object { $_ -match "^.+:" }).Count
@@ -162,11 +189,10 @@ switch ($Command) {
                     $tmuxSessions
                 }
             } else {
+                Write-Output "[*] No 'main' session found, creating one..."
                 docker exec -it $existingContainer tmux new-session -s main
             }
 
-
-           
             return
         }
         
@@ -176,16 +202,16 @@ switch ($Command) {
         $override = ""
         
         if ($Vpn -and $Workspace) {
-            $workspacePath = "$homeDir/workspace/$Workspace".Replace('\','/')
+            $wsInfo = Resolve-WorkspaceInfo -WorkspaceParam $Workspace
+            $workspacePath  = $wsInfo.Path
+            $workspaceSanitized = $wsInfo.Sanitized
+
             $vpnPath = (Resolve-Path $Vpn).Path
-            if(!(Test-Path $workspacePath)) {
-                New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
-            }
             $override = @"
 version: '3'
 services:
   ${containerName}:
-    container_name: $containerName$Workspace
+    container_name: $containerName$workspaceSanitized
     volumes:
       - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
       - "${workspacePath}:/workspace"
@@ -199,7 +225,7 @@ services:
 version: '3'
 services:
   ${containerName}:
-    container_name: $containerName$Workspace
+    container_name: $containerName
     volumes:
       - "$($vpnPath.Replace('\', '/')):/vpn/$(Split-Path -Leaf $vpnPath)"
       - "$ScriptDir/workspace/:/workspace"
@@ -208,22 +234,11 @@ services:
             $needsOverride = $true
         }
         elseif ($Workspace) {
-    # Detect absolute Windows path (C:\... or any drive letter)
-    if ($Workspace -match '^[A-Za-z]:[/\\]') {
-        $workspacePath = $Workspace.Replace('\', '/')
-        # Don't try to create it if it already exists; warn if missing
-        if (!(Test-Path $Workspace)) {
-            Write-Warning "Path '$Workspace' does not exist. It will still be mounted."
-        }
-    } else {
-        $workspacePath = "$homeDir/workspace/$Workspace".Replace('\', '/')
-        if (!(Test-Path $workspacePath)) {
-            New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
-        }
-    }
+            $wsInfo = Resolve-WorkspaceInfo -WorkspaceParam $Workspace
+            $workspacePath  = $wsInfo.Path
+            $workspaceSanitized = $wsInfo.Sanitized
 
-    $workspaceSanitized = $Workspace -replace '[^a-zA-Z0-9_.\-]', '_'
-    $override = @"
+            $override = @"
 version: '3'
 services:
   ${containerName}:
@@ -232,14 +247,13 @@ services:
       - "${workspacePath}:/workspace"
     entrypoint: ["/entrypoint.sh"]
 "@
-    $needsOverride = $true
-}
+            $needsOverride = $true
+        }
 
         if ($needsOverride) {
             $configChanged = Create-OverrideFile -Content $override
             
-            # Only run docker-compose if config changed or container doesn't exist
-            if ($configChanged -or !(docker ps -a --filter "name=$containerName$Workspace" --format '{{.Names}}')) {
+            if ($configChanged -or !(docker ps -a --filter "name=$containerName$workspaceSanitized" --format '{{.Names}}')) {
                 docker compose -f "$ScriptDir\docker-compose.yml" -f "$ScriptDir\docker-compose.override.yml" up -d --no-build
             } else {
                 Write-Output "[*] Container exists with same config, starting if needed..."
@@ -257,7 +271,8 @@ services:
     "shell" {
         Write-Output "[*] Connecting to existing container..."
         
-        $runningContainer = Get-RunningContainer -WorkspaceSuffix $Workspace
+        $workspaceSanitized = $Workspace -replace '[^a-zA-Z0-9_.\-]', '_'
+        $runningContainer = Get-RunningContainer -WorkspaceSuffix $workspaceSanitized
         
         if ($runningContainer) {
             Write-Output "[*] Found running container: $runningContainer"
@@ -361,6 +376,8 @@ services:
         Write-Output ""
         Write-Output "Examples:"
         Write-Output "  ./exefree.ps1 start -Workspace myproject"
+        Write-Output "  ./exefree.ps1 start -Workspace C:\no_scan\"
+        Write-Output "  ./exefree.ps1 start -Workspace myproject -Vpn .\machines_eu-1.ovpn"
         Write-Output "  ./exefree.ps1 shell -Workspace myproject"
     }
 }
