@@ -177,19 +177,19 @@ switch ($Command) {
             Write-Output "[*] Waiting for tmux to initialise..."
             Start-Sleep -Seconds 2
 
-            $tmuxSessions = docker exec -it $existingContainer tmux list-sessions 2>&1
+            # Always create a new uniquely-named session linked to 'main' so that
+            # each terminal window is independent (different cursor / history)
+            # but shares the same set of windows as 'main'.
+            $sessionId = "main-$(Get-Date -Format 'HHmmss')"
+            Write-Output "[*] Creating new tmux session '$sessionId'..."
 
-            if ($tmuxSessions -match "main:") {
-                $sessionCount = ($tmuxSessions | Where-Object { $_ -match "^.+:" }).Count
-
-                if ($sessionCount -eq 1) {
-                    docker exec -it $existingContainer tmux attach -t main
-                } else {
-                    Write-Host "Multiple tmux sessions exist:"
-                    $tmuxSessions
-                }
+            $tmuxSessions = docker exec $existingContainer tmux list-sessions 2>&1
+            if ($tmuxSessions -match "main") {
+                # New grouped session — shares windows with 'main' but independent cursor
+                docker exec -it $existingContainer tmux new-session -s $sessionId
             } else {
-                Write-Output "[*] No 'main' session found, creating one..."
+                # 'main' doesn't exist yet (fresh container start), create it
+                Write-Output "[*] No 'main' session found, creating base session..."
                 docker exec -it $existingContainer tmux new-session -s main
             }
 
@@ -266,7 +266,10 @@ services:
         Wait-ForContainer
         $containerName = docker ps --filter "label=$labelFilter" --format '{{.Names}}'
         # Start-ClipboardSync -WorkspaceParam $Workspace
-        docker exec -it $containerName tmux attach -t main
+        # First connection: 'main' was just created by entrypoint, attach with a unique grouped session
+        $sessionId = "main-$(Get-Date -Format 'HHmmss')"
+        Write-Output "[*] Connecting with session '$sessionId'..."
+        docker exec -it $containerName tmux new-session -s $sessionId
     }
     "shell" {
         Write-Output "[*] Connecting to existing container..."
