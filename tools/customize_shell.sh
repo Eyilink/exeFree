@@ -142,6 +142,29 @@ echo 'kerbconf() {
    echo "   klist"
 }' >> ~/.zshrc
 
+echo 'nthash() {
+    if [[ -z "$1" ]]; then
+        echo "Uso: nthash '<password>'" >&2
+        return 1
+    fi
+
+    python3 -c "
+import sys
+try:
+    from Crypto.Hash import MD4
+    h = MD4.new(sys.argv[1].encode('utf-16le')).hexdigest()
+except ImportError:
+    try:
+        from impacket.ntlm import compute_nthash
+        import binascii
+        h = binascii.hexlify(compute_nthash(sys.argv[1])).decode()
+    except ImportError:
+        print('Error: instala pycryptodome (pip install pycryptodome) o impacket', file=sys.stderr)
+        sys.exit(1)
+print(h)
+" "$1"
+}' >> ~/.zshrc
+
 
 echo 'HISTFILE=~/.zsh_history
 HISTSIZE=10000
