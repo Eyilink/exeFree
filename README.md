@@ -7,7 +7,7 @@ fix openssl (it is the openssl libs in python that doesnt work for some tools)
  one container but different encrypted workspaces
 resize du vnc aussi by adding an env var RESOLUTION and passing it to compose by using the wrapper to retrieve it via [System.Windows.Forms.Screen]::AllScreens | ForEach-Object { $_.Bounds.X }
 
--> fix le no sessions dans exefree.ps1 -> si ça arrive seulement relancer a commande start une deuxième fois ce qui créera la session tmux
+-> sur internal mettre tous les scripts impacket dans le path
 
  
  ### Setup
