@@ -8,6 +8,7 @@ fix openssl (it is the openssl libs in python that doesnt work for some tools)
 resize du vnc aussi by adding an env var RESOLUTION and passing it to compose by using the wrapper to retrieve it via [System.Windows.Forms.Screen]::AllScreens | ForEach-Object { $_.Bounds.X }
 
 -> sur internal mettre tous les scripts impacket dans le path
+-> voir si xfreerdp fonctionne avec vnc_start
 
  
  ### Setup
