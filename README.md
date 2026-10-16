@@ -2,17 +2,13 @@
 Faire un exefree update pour update l image via un git pull
 Changer exefree build -type blabla en exefree build blabla
 
-
-
-
-
-
-
-
- fix openssl (it is the openssl libs in python that doesnt work for some tools)
+fix openssl (it is the openssl libs in python that doesnt work for some tools)
  zsh history persistent
  one container but different encrypted workspaces
 resize du vnc aussi by adding an env var RESOLUTION and passing it to compose by using the wrapper to retrieve it via [System.Windows.Forms.Screen]::AllScreens | ForEach-Object { $_.Bounds.X }
+
+-> sur internal mettre tous les scripts impacket dans le path
+-> voir si xfreerdp fonctionne avec vnc_start
 
  
  ### Setup
