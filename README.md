@@ -25,6 +25,8 @@ You can do `exefree start <workspace>` to start a new workspace, to this you can
 
 I would advise to use the x11 server for lightweight process like xfreerdp and to use the VNC server for burp, firefox, etc.
 
+---
+
 ### Zshrc special capacities
 
 The default zshrc provides a sync_time function to synchronize time during internal assessment.
@@ -32,6 +34,8 @@ The default zshrc provides a sync_time function to synchronize time during inter
 And a vnc_start func to start a GUI app through VNC. It is recommended to use Ultra VNC Viewer client.
 
 A kerbconf func to display an example kerberos conf to use during internal assessment.
+
+A nt_hash function is available to compute the NT hash (RC4) from a given password.
 
 ### OpenCode
 
