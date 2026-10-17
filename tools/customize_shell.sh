@@ -144,7 +144,7 @@ echo 'kerbconf() {
 
 echo 'nthash() {
     if [[ -z "$1" ]]; then
-        echo "Uso: nthash '<password>'" >&2
+        echo "Uso: nthash '\''<password>'\''" >&2
         return 1
     fi
 
@@ -159,7 +159,7 @@ except ImportError:
         import binascii
         h = binascii.hexlify(compute_nthash(sys.argv[1])).decode()
     except ImportError:
-        print('Error: instala pycryptodome (pip install pycryptodome) o impacket', file=sys.stderr)
+        print("Error: instala pycryptodome (pip install pycryptodome) o impacket", file=sys.stderr)
         sys.exit(1)
 print(h)
 " "$1"
